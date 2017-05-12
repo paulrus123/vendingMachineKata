@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DA84DE121EC5585100727D74 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA84DE111EC5585100727D74 /* main.cpp */; };
 		DA84DE1F1EC55F2200727D74 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA84DE1E1EC55F2200727D74 /* tests.cpp */; };
+		DA84DE271EC627CA00727D74 /* vendingMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA84DE251EC627CA00727D74 /* vendingMachine.cpp */; };
+		DA84DE281EC627CA00727D74 /* vendingMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA84DE251EC627CA00727D74 /* vendingMachine.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +40,8 @@
 		DA84DE1C1EC55F2200727D74 /* VendingMachineUnitTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VendingMachineUnitTests; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA84DE1E1EC55F2200727D74 /* tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
 		DA84DE241EC55F5800727D74 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
+		DA84DE251EC627CA00727D74 /* vendingMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vendingMachine.cpp; sourceTree = "<group>"; };
+		DA84DE261EC627CA00727D74 /* vendingMachine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vendingMachine.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				DA84DE111EC5585100727D74 /* main.cpp */,
+				DA84DE251EC627CA00727D74 /* vendingMachine.cpp */,
+				DA84DE261EC627CA00727D74 /* vendingMachine.hpp */,
 			);
 			path = VendingMachineKata;
 			sourceTree = "<group>";
@@ -173,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA84DE121EC5585100727D74 /* main.cpp in Sources */,
+				DA84DE271EC627CA00727D74 /* vendingMachine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA84DE1F1EC55F2200727D74 /* tests.cpp in Sources */,
+				DA84DE281EC627CA00727D74 /* vendingMachine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

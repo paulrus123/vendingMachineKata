@@ -9,11 +9,13 @@
 #include <iostream>
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
+#include "vendingMachine.hpp"
 
 
-TEST_CASE("Sample Test Case") {
+TEST_CASE("TestAcceptCoinsFunction") {
     
-    SECTION("Sample Section") {
-        REQUIRE(1);
+    SECTION("WhenNoMoneyIsInsertedDisplayInsertCoin") {
+        VendingMachine* vendingMachine = new VendingMachine;
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
     }
 }
