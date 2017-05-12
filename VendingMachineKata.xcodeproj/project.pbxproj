@@ -8,10 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		DA84DE121EC5585100727D74 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA84DE111EC5585100727D74 /* main.cpp */; };
+		DA84DE1F1EC55F2200727D74 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA84DE1E1EC55F2200727D74 /* tests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		DA84DE0C1EC5585100727D74 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		DA84DE1A1EC55F2200727D74 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -25,10 +35,20 @@
 /* Begin PBXFileReference section */
 		DA84DE0E1EC5585100727D74 /* VendingMachineKata */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VendingMachineKata; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA84DE111EC5585100727D74 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DA84DE1C1EC55F2200727D74 /* VendingMachineUnitTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VendingMachineUnitTests; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA84DE1E1EC55F2200727D74 /* tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
+		DA84DE241EC55F5800727D74 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DA84DE0B1EC5585100727D74 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA84DE191EC55F2200727D74 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				DA84DE101EC5585100727D74 /* VendingMachineKata */,
+				DA84DE1D1EC55F2200727D74 /* VendingMachineUnitTests */,
 				DA84DE0F1EC5585100727D74 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				DA84DE0E1EC5585100727D74 /* VendingMachineKata */,
+				DA84DE1C1EC55F2200727D74 /* VendingMachineUnitTests */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,6 +82,15 @@
 				DA84DE111EC5585100727D74 /* main.cpp */,
 			);
 			path = VendingMachineKata;
+			sourceTree = "<group>";
+		};
+		DA84DE1D1EC55F2200727D74 /* VendingMachineUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				DA84DE241EC55F5800727D74 /* catch.hpp */,
+				DA84DE1E1EC55F2200727D74 /* tests.cpp */,
+			);
+			path = VendingMachineUnitTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -82,6 +113,23 @@
 			productReference = DA84DE0E1EC5585100727D74 /* VendingMachineKata */;
 			productType = "com.apple.product-type.tool";
 		};
+		DA84DE1B1EC55F2200727D74 /* VendingMachineUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA84DE201EC55F2200727D74 /* Build configuration list for PBXNativeTarget "VendingMachineUnitTests" */;
+			buildPhases = (
+				DA84DE181EC55F2200727D74 /* Sources */,
+				DA84DE191EC55F2200727D74 /* Frameworks */,
+				DA84DE1A1EC55F2200727D74 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VendingMachineUnitTests;
+			productName = VendingMachineUnitTests;
+			productReference = DA84DE1C1EC55F2200727D74 /* VendingMachineUnitTests */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -92,6 +140,10 @@
 				ORGANIZATIONNAME = "Paul Sorenson";
 				TargetAttributes = {
 					DA84DE0D1EC5585100727D74 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
+					DA84DE1B1EC55F2200727D74 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 					};
@@ -110,6 +162,7 @@
 			projectRoot = "";
 			targets = (
 				DA84DE0D1EC5585100727D74 /* VendingMachineKata */,
+				DA84DE1B1EC55F2200727D74 /* VendingMachineUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -120,6 +173,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA84DE121EC5585100727D74 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA84DE181EC55F2200727D74 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA84DE1F1EC55F2200727D74 /* tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +290,20 @@
 			};
 			name = Release;
 		};
+		DA84DE211EC55F2200727D74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DA84DE221EC55F2200727D74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -246,6 +321,14 @@
 			buildConfigurations = (
 				DA84DE161EC5585100727D74 /* Debug */,
 				DA84DE171EC5585100727D74 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DA84DE201EC55F2200727D74 /* Build configuration list for PBXNativeTarget "VendingMachineUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA84DE211EC55F2200727D74 /* Debug */,
+				DA84DE221EC55F2200727D74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
