@@ -47,3 +47,10 @@ void VendingMachine::acceptCoin(const InsertableObject &coin)
     {
     }
 }
+
+string VendingMachine::getCoinReturn()
+{
+    return "Penny";
+}
+
+

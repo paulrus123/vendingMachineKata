@@ -19,6 +19,8 @@
 #define DIME_DIAMETER 17.91f
 #define NICKEL_WEIGHT 5.0f
 #define NICKEL_DIAMETER 21.21f
+#define PENNY_WEIGHT 2.5f
+#define PENNY_DIAMETER 19.05f
 
 
 TEST_CASE("TestAcceptCoinsFunction") {
@@ -37,24 +39,46 @@ TEST_CASE("TestAcceptCoinsFunction") {
     nickel->weight = NICKEL_WEIGHT; //standard weight of a nickel
     nickel->diameter = NICKEL_DIAMETER; //standard diameter of nickel
     
-    SECTION("WhenNoMoneyIsInsertedDisplayInsertCoin") {
+    InsertableObject* penny = new InsertableObject;
+    penny->weight = PENNY_WEIGHT;
+    penny->diameter = PENNY_DIAMETER;
+    
+    SECTION("WhenNoMoneyIsInsertedThenDisplayInsertCoin") {
         REQUIRE(vendingMachine->display() == "INSERT COIN");
     }
     
-    SECTION("WhenQuarterIsInsertedUpdateDisplay") {
+    SECTION("WhenQuarterIsInsertedThenUpdateDisplay") {
         vendingMachine->acceptCoin(*quarter);
         REQUIRE(vendingMachine->display() == "0.25");
     }
     
-    SECTION("WhenDimeIsInsertedUpdateDisplay") {
+    SECTION("WhenDimeIsInsertedThenUpdateDisplay") {
         vendingMachine->acceptCoin(*dime);
         REQUIRE(vendingMachine->display() == "0.10");
     }
 
-    SECTION("WhenNickelIsInsertedUpdateDisplay") {
+    SECTION("WhenNickelIsInsertedThenUpdateDisplay") {
         vendingMachine->acceptCoin(*nickel);
         REQUIRE(vendingMachine->display() == "0.05");
     }
+    
+    SECTION("WhenMultipleCoinsAreInsertedThenAccumulateAmountAndUpdateDisplay"){
+        vendingMachine->acceptCoin(*quarter);
+        REQUIRE(vendingMachine->display() == "0.25");
+        
+        vendingMachine->acceptCoin(*nickel);
+        REQUIRE(vendingMachine->display() == "0.30");
+        
+        vendingMachine->acceptCoin(*dime);
+        REQUIRE(vendingMachine->display() == "0.40");
+    }
+    
+    SECTION("WhenInvalidCoinIsInsertedThenReturnCoin")
+    {
+        vendingMachine->acceptCoin(*penny);
+        REQUIRE(vendingMachine->getCoinReturn() == "Penny");
+    }
+    
     
     
 }

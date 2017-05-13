@@ -49,6 +49,13 @@ public:
      */
     void acceptCoin(const InsertableObject &coin);
     
+    /**
+     Prints an array of Insertable Objects that are in the coin return and empties the coin return
+     
+     @return comma separated list of coins in the coin return. Unknown coint will printed as "UnknownCoin"
+     */
+    string getCoinReturn();
+    
 private:
     float currentUserValueInputSoFar; //the amount of money the current user has put in the machine
     
