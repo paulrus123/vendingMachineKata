@@ -20,6 +20,8 @@ const float VendingMachine::dimeDiameter = 17.91f;
 const float VendingMachine::nickelWeight = 5.0f;
 const float VendingMachine::nickelDiameter = 21.21f;
 const float VendingMachine::toleranceLevel = 0.01f;
+const float VendingMachine::pennyWeight = 2.5f;
+const float VendingMachine::pennyDiameter = 19.05f;
 
 string VendingMachine::display()
 {
@@ -44,13 +46,25 @@ void VendingMachine::acceptCoin(const InsertableObject &coin)
     else if((abs(coin.weight - nickelWeight) < toleranceLevel) && (abs(coin.diameter - nickelDiameter) < toleranceLevel)) //nickel
         currentUserValueInputSoFar+=0.05f;
     else //not valid
-    {
-    }
+        coinsInCoinReturn.push_back(coin);
 }
 
 string VendingMachine::getCoinReturn()
 {
-    return "Penny";
+    if(!coinsInCoinReturn.empty()) //there are objects in the coin return
+    {
+        string listOfCoins = "";
+        for(std::vector<InsertableObject>::reverse_iterator it = coinsInCoinReturn.rbegin(); it != coinsInCoinReturn.rend(); ++it)
+        {
+            if((abs(it->weight - pennyWeight) < toleranceLevel) && (abs(it->diameter - pennyDiameter) < toleranceLevel)) //penny
+                listOfCoins += "Penny, ";
+            else
+                listOfCoins += "UnknownCoin, ";
+        }
+        return listOfCoins;
+    }
+    else
+       return "Coin return is empty";
 }
 
 

@@ -43,6 +43,10 @@ TEST_CASE("TestAcceptCoinsFunction") {
     penny->weight = PENNY_WEIGHT;
     penny->diameter = PENNY_DIAMETER;
     
+    InsertableObject* unknownCoin = new InsertableObject;
+    unknownCoin->weight = 6.5f;
+    unknownCoin->diameter = 15.0f;
+    
     SECTION("WhenNoMoneyIsInsertedThenDisplayInsertCoin") {
         REQUIRE(vendingMachine->display() == "INSERT COIN");
     }
@@ -73,10 +77,19 @@ TEST_CASE("TestAcceptCoinsFunction") {
         REQUIRE(vendingMachine->display() == "0.40");
     }
     
-    SECTION("WhenInvalidCoinIsInsertedThenReturnCoin")
-    {
+    SECTION("WhenInvalidCoinIsInsertedThenReturnCoin"){
         vendingMachine->acceptCoin(*penny);
-        REQUIRE(vendingMachine->getCoinReturn() == "Penny");
+        REQUIRE(vendingMachine->getCoinReturn() == "Penny, ");
+    }
+    
+    SECTION("WhenNoCoinIsInsertedThenCoinReturnShallBeEmpty"){
+        REQUIRE(vendingMachine->getCoinReturn() == "Coin return is empty");
+    }
+    
+    SECTION("WhenTwoInvalidCoinsAreInsertedThenReturnBothCoins"){
+        vendingMachine->acceptCoin(*penny);
+        vendingMachine->acceptCoin(*unknownCoin);
+        REQUIRE(vendingMachine->getCoinReturn() == "UnknownCoin, Penny, ");
     }
     
     

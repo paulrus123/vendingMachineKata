@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ struct InsertableObject {
 class VendingMachine
 {
 public:
-    VendingMachine() : currentUserValueInputSoFar(0.0)
+    VendingMachine() : currentUserValueInputSoFar(0.0), coinsInCoinReturn()
     {
     }
     
@@ -34,6 +35,8 @@ public:
     static const float dimeDiameter;
     static const float nickelWeight;
     static const float nickelDiameter;
+    static const float pennyWeight;
+    static const float pennyDiameter;
     static const float toleranceLevel; //weight/size tolerance at which the machine will still accept object as valid coin
     
     /**
@@ -52,12 +55,13 @@ public:
     /**
      Prints an array of Insertable Objects that are in the coin return and empties the coin return
      
-     @return comma separated list of coins in the coin return. Unknown coint will printed as "UnknownCoin"
+     @return comma separated list of coins in the coin return. Unknown coins will printed as "UnknownCoin"
      */
     string getCoinReturn();
     
 private:
     float currentUserValueInputSoFar; //the amount of money the current user has put in the machine
+    std::vector<InsertableObject> coinsInCoinReturn; //array of coins in the coin return
     
 };
 
