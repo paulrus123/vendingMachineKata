@@ -23,11 +23,37 @@ TEST_CASE("TestAcceptCoinsFunction") {
         VendingMachine* vendingMachine = new VendingMachine;
         
         InsertableObject* quarter = new InsertableObject;
-        quarter->weight = 5.67;
-        quarter->diameter = 24.26;
+        quarter->weight = 5.67; //standard weight of a quarter https://mdmetric.com/tech/coinmeasure.htm
+        quarter->diameter = 24.26; //standard diameter of a quarter
         
         vendingMachine->acceptCoin(*quarter);
         
         REQUIRE(vendingMachine->display() == "0.25");
     }
+    
+    SECTION("WhenDimeIsInsertedUpdateDisplay") {
+        VendingMachine* vendingMachine = new VendingMachine;
+        
+        InsertableObject* dime = new InsertableObject;
+        dime->weight = 2.27; //standard weight of a dime
+        dime->diameter = 17.91; //standard diameter of dime
+        
+        vendingMachine->acceptCoin(*dime);
+        
+        REQUIRE(vendingMachine->display() == "0.10");
+    }
+
+    SECTION("WhenNickelIsInsertedUpdateDisplay") {
+        VendingMachine* vendingMachine = new VendingMachine;
+        
+        InsertableObject* nickel = new InsertableObject;
+        nickel->weight = 5.0; //standard weight of a nickel
+        nickel->diameter = 21.21; //standard diameter of nickel
+        
+        vendingMachine->acceptCoin(*nickel);
+        
+        REQUIRE(vendingMachine->display() == "0.05");
+    }
+    
+    
 }

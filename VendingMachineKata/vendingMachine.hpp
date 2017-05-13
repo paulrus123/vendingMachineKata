@@ -15,8 +15,8 @@
 using namespace std;
 
 struct InsertableObject {
-    float weight;
-    float diameter;
+    float weight; //weight in grams
+    float diameter; //diameter in millimeters
 };
 
 
