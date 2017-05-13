@@ -18,4 +18,16 @@ TEST_CASE("TestAcceptCoinsFunction") {
         VendingMachine* vendingMachine = new VendingMachine;
         REQUIRE(vendingMachine->display() == "INSERT COIN");
     }
+    
+    SECTION("WhenQuarterIsInsertedUpdateDisplay") {
+        VendingMachine* vendingMachine = new VendingMachine;
+        
+        InsertableObject* quarter = new InsertableObject;
+        quarter->weight = 5.67;
+        quarter->diameter = 24.26;
+        
+        vendingMachine->acceptCoin(*quarter);
+        
+        REQUIRE(vendingMachine->display() == "0.25");
+    }
 }

@@ -10,5 +10,13 @@
 
 string VendingMachine::display()
 {
-    return "INSERT COIN";
+    if(currentUserValueInputSoFar)
+        return "0.25";
+    else
+        return "INSERT COIN";
+}
+
+void VendingMachine::acceptCoin(const InsertableObject &coin)
+{
+    currentUserValueInputSoFar+=0.25;
 }
