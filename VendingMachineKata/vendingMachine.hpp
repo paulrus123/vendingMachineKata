@@ -26,6 +26,16 @@ public:
     VendingMachine() : currentUserValueInputSoFar(0.0)
     {
     }
+    
+    //constants
+    static const float quarterWeight; 
+    static const float quarterDiameter;
+    static const float dimeWeight;
+    static const float dimeDiameter;
+    static const float nickelWeight;
+    static const float nickelDiameter;
+    static const float toleranceLevel; //weight/size tolerance at which the machine will still accept object as valid coin
+    
     /**
      Returns the display text on the vending machine
      

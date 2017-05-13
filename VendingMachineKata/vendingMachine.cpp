@@ -9,7 +9,17 @@
 #include "vendingMachine.hpp"
 #include <iomanip> // setprecision
 #include <sstream> // stringstream
-#include <cmath>
+#include <cmath> // abs
+
+
+//Constants
+const float VendingMachine::quarterWeight = 5.67f;
+const float VendingMachine::quarterDiameter = 24.26f;
+const float VendingMachine::dimeWeight = 2.27f;
+const float VendingMachine::dimeDiameter = 17.91f;
+const float VendingMachine::nickelWeight = 5.0f;
+const float VendingMachine::nickelDiameter = 21.21f;
+const float VendingMachine::toleranceLevel = 0.01f;
 
 string VendingMachine::display()
 {
@@ -26,12 +36,13 @@ string VendingMachine::display()
 
 void VendingMachine::acceptCoin(const InsertableObject &coin)
 {
-    if((abs(coin.weight - 2.27) < 0.01) && (abs(coin.diameter - 17.91) < 0.01)) //dime
-        currentUserValueInputSoFar+=0.1;
-    else if((abs(coin.weight - 5.67) < 0.01) && (abs(coin.diameter - 24.26) < 0.01)) //quarter
-        currentUserValueInputSoFar+=0.25;
-    else if((abs(coin.weight - 5.0) < 0.01) && (abs(coin.diameter - 21.21) < 0.01)) //quarter
-    currentUserValueInputSoFar+=0.05;
+    //Check if weight and diameter of inserted object is within toleranceLevel (gram, millimeter) of an accepted coin type
+    if((abs(coin.weight - quarterWeight) < toleranceLevel) && (abs(coin.diameter - quarterDiameter) < toleranceLevel)) //quarter
+        currentUserValueInputSoFar+=0.25f;
+    else if((abs(coin.weight - dimeWeight) < toleranceLevel) && (abs(coin.diameter - dimeDiameter) < toleranceLevel)) //dime
+        currentUserValueInputSoFar+=0.1f;
+    else if((abs(coin.weight - nickelWeight) < toleranceLevel) && (abs(coin.diameter - nickelDiameter) < toleranceLevel)) //nickel
+        currentUserValueInputSoFar+=0.05f;
     else //not valid
     {
     }

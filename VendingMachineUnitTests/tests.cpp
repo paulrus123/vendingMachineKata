@@ -1,5 +1,5 @@
 //
-//  main.cpp
+//  tests.cpp
 //  VendingMachineUnitTests
 //
 //  Created by Paul Sorenson on 5/11/17.
@@ -12,46 +12,47 @@
 #include "vendingMachine.hpp"
 
 
+//#defines for test values of coin weights and diameters
+#define QUARTER_WEIGHT 5.67f
+#define QUARTER_DIAMETER 24.26f
+#define DIME_WEIGHT 2.27f
+#define DIME_DIAMETER 17.91f
+#define NICKEL_WEIGHT 5.0f
+#define NICKEL_DIAMETER 21.21f
+
+
 TEST_CASE("TestAcceptCoinsFunction") {
+  
+    VendingMachine* vendingMachine = new VendingMachine;
+    
+    InsertableObject* quarter = new InsertableObject;
+    quarter->weight = QUARTER_WEIGHT; //standard weight of a quarter https://mdmetric.com/tech/coinmeasure.htm
+    quarter->diameter = QUARTER_DIAMETER; //standard diameter of a quarter
+    
+    InsertableObject* dime = new InsertableObject;
+    dime->weight = DIME_WEIGHT; //standard weight of a dime
+    dime->diameter = DIME_DIAMETER; //standard diameter of dime
+    
+    InsertableObject* nickel = new InsertableObject;
+    nickel->weight = NICKEL_WEIGHT; //standard weight of a nickel
+    nickel->diameter = NICKEL_DIAMETER; //standard diameter of nickel
     
     SECTION("WhenNoMoneyIsInsertedDisplayInsertCoin") {
-        VendingMachine* vendingMachine = new VendingMachine;
         REQUIRE(vendingMachine->display() == "INSERT COIN");
     }
     
     SECTION("WhenQuarterIsInsertedUpdateDisplay") {
-        VendingMachine* vendingMachine = new VendingMachine;
-        
-        InsertableObject* quarter = new InsertableObject;
-        quarter->weight = 5.67; //standard weight of a quarter https://mdmetric.com/tech/coinmeasure.htm
-        quarter->diameter = 24.26; //standard diameter of a quarter
-        
         vendingMachine->acceptCoin(*quarter);
-        
         REQUIRE(vendingMachine->display() == "0.25");
     }
     
     SECTION("WhenDimeIsInsertedUpdateDisplay") {
-        VendingMachine* vendingMachine = new VendingMachine;
-        
-        InsertableObject* dime = new InsertableObject;
-        dime->weight = 2.27; //standard weight of a dime
-        dime->diameter = 17.91; //standard diameter of dime
-        
         vendingMachine->acceptCoin(*dime);
-        
         REQUIRE(vendingMachine->display() == "0.10");
     }
 
     SECTION("WhenNickelIsInsertedUpdateDisplay") {
-        VendingMachine* vendingMachine = new VendingMachine;
-        
-        InsertableObject* nickel = new InsertableObject;
-        nickel->weight = 5.0; //standard weight of a nickel
-        nickel->diameter = 21.21; //standard diameter of nickel
-        
         vendingMachine->acceptCoin(*nickel);
-        
         REQUIRE(vendingMachine->display() == "0.05");
     }
     
