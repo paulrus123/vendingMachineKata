@@ -403,13 +403,13 @@ TEST_CASE("TestMakeChangeFunction") {
             vendingMachine->acceptCoin(quarters[i]);
         }
         
-        //dispense 2 dimes
+        //dispense 1 dime
         for(int i = 0; i < 1; i++)
         {
             vendingMachine->acceptCoin(dimes[i]);
         }
         
-        //dispense 2 nickel
+        //dispense 1 nickel
         for(int i = 0; i < 1; i++)
         {
             vendingMachine->acceptCoin(nickels[i]);
@@ -418,6 +418,50 @@ TEST_CASE("TestMakeChangeFunction") {
         //select cola
         vendingMachine->dispenseProduct(VendingMachine::cola);
         REQUIRE(vendingMachine->getCoinReturn() == "Nickel, Dime, Quarter, ");
+    }
+    
+    SECTION("MakeChangeFromQuartersAndDimesAndNickelsAndChips")
+    {
+        //dispense 3 quarters
+        for(int i = 0; i < 3; i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        //dispense 1 dime
+        for(int i = 0; i < 1; i++)
+        {
+            vendingMachine->acceptCoin(dimes[i]);
+        }
+        
+        //dispense 1 nickel
+        for(int i = 0; i < 1; i++)
+        {
+            vendingMachine->acceptCoin(nickels[i]);
+        }
+        
+        //select chips
+        vendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(vendingMachine->getCoinReturn() == "Nickel, Dime, Quarter, ");
+    }
+    
+    SECTION("MakeChangeFromQuartersAndDimesAndCandy")
+    {
+        //dispense 3 quarters
+        for(int i = 0; i < 3; i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        //dispense 1 dime
+        for(int i = 0; i < 1; i++)
+        {
+            vendingMachine->acceptCoin(dimes[i]);
+        }
+        
+        //select candy
+        vendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(vendingMachine->getCoinReturn() == "Dime, ");
     }
     
 }

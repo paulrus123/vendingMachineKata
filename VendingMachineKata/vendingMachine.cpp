@@ -145,6 +145,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             if(currentUserValueInputSoFar >= 65)
             {
                 isDispensedDisplayThankYou = true;
+                returnChange(currentUserValueInputSoFar - 65);
                 currentUserValueInputSoFar = 0;
             }
             else
