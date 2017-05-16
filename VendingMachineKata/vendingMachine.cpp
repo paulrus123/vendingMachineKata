@@ -81,6 +81,7 @@ void VendingMachine::acceptCoin(const InsertableObject &coin)
     {
         currentUserValueInputSoFar+=5;
         displayCurrentAmount = true;
+        nickelsInMachine.push_back(coin);
     }
     else //not valid
         coinsInCoinReturn.push_back(coin);
@@ -99,6 +100,8 @@ string VendingMachine::getCoinReturn()
                 listOfCoins += "Quarter, ";
             else if((abs(it->weight - dimeWeight) < toleranceLevel) && (abs(it->diameter - dimeDiameter) < toleranceLevel)) //dime
                 listOfCoins += "Dime, ";
+            else if((abs(it->weight - nickelWeight) < toleranceLevel) && (abs(it->diameter - nickelDiameter) < toleranceLevel)) //nickel
+                listOfCoins += "Nickel, ";
             else
                 listOfCoins += "UnknownCoin, ";
         }
@@ -170,6 +173,12 @@ void VendingMachine::returnChange(int amountToReturn)
         coinsInCoinReturn.push_back(dimesInMachine.back());
         dimesInMachine.pop_back();
         leftToReturn-=10;
+    }
+    while((leftToReturn >= 5) && (!nickelsInMachine.empty()))
+    {
+        coinsInCoinReturn.push_back(nickelsInMachine.back());
+        nickelsInMachine.pop_back();
+        leftToReturn-=5;
     }
 }
 

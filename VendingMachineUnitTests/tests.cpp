@@ -343,6 +343,13 @@ TEST_CASE("TestMakeChangeFunction") {
         dimes[i].diameter = DIME_DIAMETER;
     }
     
+    std::array<InsertableObject, 40> nickels; //2 dollars of nickels
+    for(int i = 0; i < nickels.size(); i++)
+    {
+        nickels[i].weight = NICKEL_WEIGHT;
+        nickels[i].diameter = NICKEL_DIAMETER;
+    }
+    
     SECTION("MakeChangeFromQuartersAndChips")
     {
         //dispense all the quarters
@@ -385,7 +392,32 @@ TEST_CASE("TestMakeChangeFunction") {
         
         //select cola
         vendingMachine->dispenseProduct(VendingMachine::cola);
-        REQUIRE(vendingMachine->getCoinReturn() == "Dime, Dime, Quarter");
+        REQUIRE(vendingMachine->getCoinReturn() == "Dime, Dime, Quarter, ");
+    }
+    
+    SECTION("MakeChangeFromQuartersAndDimesAndNickelsAndCola")
+    {
+        //dispense 5 quarters
+        for(int i = 0; i < 5; i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        //dispense 2 dimes
+        for(int i = 0; i < 1; i++)
+        {
+            vendingMachine->acceptCoin(dimes[i]);
+        }
+        
+        //dispense 2 nickel
+        for(int i = 0; i < 1; i++)
+        {
+            vendingMachine->acceptCoin(nickels[i]);
+        }
+        
+        //select cola
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->getCoinReturn() == "Nickel, Dime, Quarter, ");
     }
     
 }
