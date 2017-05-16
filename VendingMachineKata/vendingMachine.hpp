@@ -27,6 +27,7 @@ public:
     VendingMachine() :
         currentUserValueInputSoFar(0.0),
         coinsInCoinReturn(),
+        quartersInMachine(),
         isDispensedDisplayThankYou(false),
         haveInsufficientFunds(false),
         displayCurrentAmount(false),
@@ -81,10 +82,16 @@ public:
 private:
     int currentUserValueInputSoFar; //the amount of money the current user has put in the machine in cents
     std::vector<InsertableObject> coinsInCoinReturn; //array of coins in the coin return
+    std::vector<InsertableObject> quartersInMachine; //array of quarters in the machine
     bool isDispensedDisplayThankYou; //bool that tells display whether or not to display "THANK YOU"
     bool haveInsufficientFunds; //bool that tells display to show "PRICE ___" (price of product) if insufficient funds
     bool displayCurrentAmount; //bool that is true if display should display the amount the user has input so far
     string productPriceString; //string containing price of a product
+    
+    /**
+     * Adds any extra money that was input and not used into the change return
+     */
+    void returnChange();
 };
 
 #endif /* vendingMachine_hpp */

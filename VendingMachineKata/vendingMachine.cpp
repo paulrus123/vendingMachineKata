@@ -69,6 +69,7 @@ void VendingMachine::acceptCoin(const InsertableObject &coin)
     {
         currentUserValueInputSoFar+=25;
         displayCurrentAmount = true;
+        quartersInMachine.push_back(coin); //add the coin to the quarters stock of the machine
     }
     else if((abs(coin.weight - dimeWeight) < toleranceLevel) && (abs(coin.diameter - dimeDiameter) < toleranceLevel)) //dime
     {
@@ -93,6 +94,8 @@ string VendingMachine::getCoinReturn()
         {
             if((abs(it->weight - pennyWeight) < toleranceLevel) && (abs(it->diameter - pennyDiameter) < toleranceLevel)) //penny
                 listOfCoins += "Penny, ";
+            else if((abs(it->weight - quarterWeight) < toleranceLevel) && (abs(it->diameter - quarterDiameter) < toleranceLevel)) //penny
+                listOfCoins += "Quarter, ";
             else
                 listOfCoins += "UnknownCoin, ";
         }
@@ -122,6 +125,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             if(currentUserValueInputSoFar >= 50)
             {
                 isDispensedDisplayThankYou = true;
+                returnChange();
                 currentUserValueInputSoFar = 0;
             }
             else
@@ -145,6 +149,17 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
         default:
             //do something
             break;
+    }
+}
+
+void VendingMachine::returnChange()
+{
+    for(int i = 0; i <2; i++){
+        if(!quartersInMachine.empty())
+        {
+            coinsInCoinReturn.push_back(quartersInMachine.back());
+            quartersInMachine.pop_back();
+        }
     }
 }
 

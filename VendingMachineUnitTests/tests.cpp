@@ -26,10 +26,11 @@
 #define PENNY_WEIGHT 2.5f
 #define PENNY_DIAMETER 19.05f
 
-
+/************************************************************************************
+ * TestAcceptCoinsFunction: Test cases related to the "Accept Coins" section of
+ * the requirements.
+ */
 TEST_CASE("TestAcceptCoinsFunction") {
-    
-    
     //Setup
     VendingMachine* vendingMachine = new VendingMachine;
     
@@ -125,6 +126,10 @@ TEST_CASE("TestAcceptCoinsFunction") {
     vendingMachine = NULL;
 }
 
+/************************************************************************************
+ * TestSelectProductFunction: Test cases related to the "Select Product" section of
+ * the requirements.
+ */
 TEST_CASE("TestSelectProductFunction") {
     VendingMachine* vendingMachine = new VendingMachine;
 
@@ -314,5 +319,39 @@ TEST_CASE("TestSelectProductFunction") {
     delete vendingMachine;
     vendingMachine = NULL;
 }
+
+/************************************************************************************
+ * TestMakeChangeFunction: Test cases related to the "Make Change" section of
+ * the requirements.
+ */
+TEST_CASE("TestMakeChangeFunction") {
+    VendingMachine* vendingMachine = new VendingMachine;
+    REQUIRE(vendingMachine->display() == "INSERT COIN");
+    
+    SECTION("MakeChangeFromQuarters")
+    {
+        //init array of quarters
+        std::array<InsertableObject, 4> quarters; //1 dollar of quarters
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            quarters[i].weight = QUARTER_WEIGHT;
+            quarters[i].diameter = QUARTER_DIAMETER;
+        }
+        
+        //dispense all the quarters
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        //select chips
+        vendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(vendingMachine->getCoinReturn() == "Quarter, Quarter, ");
+    }
+    
+    
+}
+
+
 
 
