@@ -110,6 +110,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             if(currentUserValueInputSoFar >= 100)
             {
                 isDispensedDisplayThankYou = true;
+                currentUserValueInputSoFar = 0;
             }
             else
             {
@@ -121,6 +122,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             if(currentUserValueInputSoFar >= 50)
             {
                 isDispensedDisplayThankYou = true;
+                currentUserValueInputSoFar = 0;
             }
             else
             {
@@ -132,6 +134,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             if(currentUserValueInputSoFar >= 65)
             {
                 isDispensedDisplayThankYou = true;
+                currentUserValueInputSoFar = 0;
             }
             else
             {

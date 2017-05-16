@@ -85,8 +85,6 @@ private:
     bool haveInsufficientFunds; //bool that tells display to show "PRICE ___" (price of product) if insufficient funds
     bool displayCurrentAmount; //bool that is true if display should display the amount the user has input so far
     string productPriceString; //string containing price of a product
-
-    
 };
 
 #endif /* vendingMachine_hpp */

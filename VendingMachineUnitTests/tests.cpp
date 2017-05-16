@@ -280,6 +280,37 @@ TEST_CASE("TestSelectProductFunction") {
         secondVendingMachine = NULL;
     }
     
+    SECTION("WhenProductIsDispensedCurrentAmountIsSetToZero")
+    {
+        VendingMachine* thirdVendingMachine = new VendingMachine;
+        REQUIRE(thirdVendingMachine->display() == "INSERT COIN");
+        
+        //init array of dimes
+        std::array<InsertableObject, 10> dimes; //1 dollar of dimes
+        for(int i = 0; i < dimes.size(); i++)
+        {
+            dimes[i].weight = DIME_WEIGHT;
+            dimes[i].diameter = DIME_DIAMETER;
+        }
+        
+        //dispense entire dollar
+        for(int i = 0; i < dimes.size(); i++)
+        {
+            thirdVendingMachine->acceptCoin(dimes[i]);
+        }
+        
+        REQUIRE(thirdVendingMachine->display() == "1.00");
+        
+        thirdVendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(thirdVendingMachine->display() == "THANK YOU");
+        REQUIRE(thirdVendingMachine->display() == "INSERT COIN");
+        
+        thirdVendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(thirdVendingMachine->display() == "PRICE 0.50");
+        REQUIRE(thirdVendingMachine->display() == "INSERT COIN");
+        
+    }
+    
     delete vendingMachine;
     vendingMachine = NULL;
 }
