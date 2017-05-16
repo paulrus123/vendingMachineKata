@@ -26,7 +26,7 @@ const float VendingMachine::pennyDiameter = 19.05f;
 
 string VendingMachine::display()
 {
-    if(currentUserValueInputSoFar)
+    if(displayCurrentAmount) //display should show how much money the user has input so far
     {
         int cents = currentUserValueInputSoFar % 100;
         int dollars = currentUserValueInputSoFar / 100;
@@ -39,14 +39,26 @@ string VendingMachine::display()
         
         return(dollarStream.str() + "." + centsStream.str());
     }
-    else if(isDispensedDisplayThankYou)
-    {
-        isDispensedDisplayThankYou = false;
-        return "THANK YOU";
-    }
     else
     {
-        return "INSERT COIN";
+        if(haveInsufficientFunds == true)
+        {
+            haveInsufficientFunds = false;
+            if(currentUserValueInputSoFar)
+            {
+                displayCurrentAmount = true;
+            }
+            return("PRICE " + productPriceString);
+        }
+        else if(isDispensedDisplayThankYou)
+        {
+            isDispensedDisplayThankYou = false;
+            return "THANK YOU";
+        }
+        else
+        {
+            return "INSERT COIN";
+        }
     }
 }
 
@@ -54,11 +66,20 @@ void VendingMachine::acceptCoin(const InsertableObject &coin)
 {
     //Check if weight and diameter of inserted object is within toleranceLevel (gram, millimeter) of an accepted coin type
     if((abs(coin.weight - quarterWeight) < toleranceLevel) && (abs(coin.diameter - quarterDiameter) < toleranceLevel)) //quarter
+    {
         currentUserValueInputSoFar+=25;
+        displayCurrentAmount = true;
+    }
     else if((abs(coin.weight - dimeWeight) < toleranceLevel) && (abs(coin.diameter - dimeDiameter) < toleranceLevel)) //dime
+    {
         currentUserValueInputSoFar+=10;
+        displayCurrentAmount = true;
+    }
     else if((abs(coin.weight - nickelWeight) < toleranceLevel) && (abs(coin.diameter - nickelDiameter) < toleranceLevel)) //nickel
+    {
         currentUserValueInputSoFar+=5;
+        displayCurrentAmount = true;
+    }
     else //not valid
         coinsInCoinReturn.push_back(coin);
 }
@@ -83,18 +104,40 @@ string VendingMachine::getCoinReturn()
 
 void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
 {
+    displayCurrentAmount = false;
     switch (productName){
         case cola:
-            currentUserValueInputSoFar -= 100;
-            isDispensedDisplayThankYou = true;
+            if(currentUserValueInputSoFar >= 100)
+            {
+                isDispensedDisplayThankYou = true;
+            }
+            else
+            {
+                haveInsufficientFunds = true;
+                productPriceString = "1.00";
+            }
             break;
         case chips:
-            currentUserValueInputSoFar -= 50;
-            isDispensedDisplayThankYou = true;
+            if(currentUserValueInputSoFar >= 50)
+            {
+                isDispensedDisplayThankYou = true;
+            }
+            else
+            {
+                haveInsufficientFunds = true;
+                productPriceString = "0.50";
+            }
             break;
         case candy:
-            currentUserValueInputSoFar -= 65;
-            isDispensedDisplayThankYou = true;
+            if(currentUserValueInputSoFar >= 65)
+            {
+                isDispensedDisplayThankYou = true;
+            }
+            else
+            {
+                haveInsufficientFunds = true;
+                productPriceString = "0.65";
+            }
             break;
         default:
             //do something

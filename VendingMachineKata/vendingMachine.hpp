@@ -24,7 +24,13 @@ struct InsertableObject {
 class VendingMachine
 {
 public:
-    VendingMachine() : currentUserValueInputSoFar(0.0), coinsInCoinReturn(), isDispensedDisplayThankYou(false)
+    VendingMachine() :
+        currentUserValueInputSoFar(0.0),
+        coinsInCoinReturn(),
+        isDispensedDisplayThankYou(false),
+        haveInsufficientFunds(false),
+        displayCurrentAmount(false),
+        productPriceString("1.00")
     {
     }
     
@@ -75,7 +81,10 @@ public:
 private:
     int currentUserValueInputSoFar; //the amount of money the current user has put in the machine in cents
     std::vector<InsertableObject> coinsInCoinReturn; //array of coins in the coin return
-    bool isDispensedDisplayThankYou;
+    bool isDispensedDisplayThankYou; //bool that tells display whether or not to display "THANK YOU"
+    bool haveInsufficientFunds; //bool that tells display to show "PRICE ___" (price of product) if insufficient funds
+    bool displayCurrentAmount; //bool that is true if display should display the amount the user has input so far
+    string productPriceString; //string containing price of a product
 
     
 };

@@ -6,14 +6,17 @@
 //  Copyright © 2017 Paul Sorenson. All rights reserved.
 //
 
-#include <iostream>
+
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
+
 #include "vendingMachine.hpp"
+
+#include <iostream>
 #include <array>
 
 
-//#defines for test values of coin weights and diameters
+//test values of coin weights and diameters
 #define QUARTER_WEIGHT 5.67f
 #define QUARTER_DIAMETER 24.26f
 #define DIME_WEIGHT 2.27f
@@ -123,11 +126,10 @@ TEST_CASE("TestAcceptCoinsFunction") {
 }
 
 TEST_CASE("TestSelectProductFunction") {
-    
+    VendingMachine* vendingMachine = new VendingMachine;
+
     SECTION("WhenColaIsSelectedThenDispenseCola")
     {
-        VendingMachine* vendingMachine = new VendingMachine;
-        
         //init array of quarters
         std::array<InsertableObject, 4> quarters;
         for(int i = 0; i < quarters.size(); i++)
@@ -150,8 +152,6 @@ TEST_CASE("TestSelectProductFunction") {
     
     SECTION("WhenChipsIsSelectedThenDispenseChips")
     {
-        VendingMachine* vendingMachine = new VendingMachine;
-        
         //init array of quarters
         std::array<InsertableObject, 2> quarters;
         for(int i = 0; i < quarters.size(); i++)
@@ -175,8 +175,6 @@ TEST_CASE("TestSelectProductFunction") {
     
     SECTION("WhenCandyIsSelectedThenDispenseCandy")
     {
-        VendingMachine* vendingMachine = new VendingMachine;
-        
         //init array of nickels
         std::array<InsertableObject, 13> nickels;
         for(int i = 0; i < nickels.size(); i++)
@@ -197,12 +195,27 @@ TEST_CASE("TestSelectProductFunction") {
         REQUIRE(vendingMachine->display() == "INSERT COIN");
     }
     
-    SECTION("WhenInsufficientFundsThenDisplayPriceOfItemThenInsertCoin")
+    SECTION("WhenNoFundsThenDisplayPriceOfItemThenInsertCoin")
     {
-        VendingMachine* vendingMachine = new VendingMachine;
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
         
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->display() == "PRICE 1.00");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+        
+        vendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(vendingMachine->display() == "PRICE 0.50");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+        
+        vendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(vendingMachine->display() == "PRICE 0.65");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+    }
+    
+    SECTION("WhenInsufficientFundsThenDisplayPriceOfItemThenCurrentAmount")
+    {
         //init array of nickels
-        std::array<InsertableObject, 13> nickels;
+        std::array<InsertableObject, 9> nickels; //45 cents of nickels
         for(int i = 0; i < nickels.size(); i++)
         {
             nickels[i].weight = NICKEL_WEIGHT;
@@ -214,12 +227,61 @@ TEST_CASE("TestSelectProductFunction") {
         {
             vendingMachine->acceptCoin(nickels[i]);
         }
-        REQUIRE(vendingMachine->display() == "0.65");
+        REQUIRE(vendingMachine->display() == "0.45");
+        
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->display() == "PRICE 1.00");
+        REQUIRE(vendingMachine->display() == "0.45");
+        
+        vendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(vendingMachine->display() == "PRICE 0.50");
+        REQUIRE(vendingMachine->display() == "0.45");
         
         vendingMachine->dispenseProduct(VendingMachine::candy);
-        REQUIRE(vendingMachine->display() == "THANK YOU");
-        REQUIRE(vendingMachine->display() == "INSERT COIN");
+        REQUIRE(vendingMachine->display() == "PRICE 0.65");
+        REQUIRE(vendingMachine->display() == "0.45");
     }
+    
+    SECTION("WhenAddingMoreFundsThenItemWillBeDispensed")
+    {
+        VendingMachine* secondVendingMachine = new VendingMachine;
+        
+        //init array of nickels
+        std::array<InsertableObject, 20> nickels; //1 dollar of nickels
+        for(int i = 0; i < nickels.size(); i++)
+        {
+            nickels[i].weight = NICKEL_WEIGHT;
+            nickels[i].diameter = NICKEL_DIAMETER;
+        }
+        
+        //dispense 50 cents of nickels
+        for(int i = 0; i < (nickels.size() - 10); i++)
+        {
+            secondVendingMachine->acceptCoin(nickels[i]);
+        }
+        
+        REQUIRE(secondVendingMachine->display() == "0.50");
+        
+        secondVendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(secondVendingMachine->display() == "PRICE 1.00");
+        REQUIRE(secondVendingMachine->display() == "0.50");
+        
+        //dispense another 50 cents of nickels
+        for(int i = (nickels.size() - 10); i < nickels.size(); i++)
+        {
+            secondVendingMachine->acceptCoin(nickels[i]);
+        }
+        
+        secondVendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(secondVendingMachine->display() == "THANK YOU");
+        REQUIRE(secondVendingMachine->display() == "INSERT COIN");
+        
+        delete secondVendingMachine;
+        secondVendingMachine = NULL;
+    }
+    
+    delete vendingMachine;
+    vendingMachine = NULL;
 }
 
 
