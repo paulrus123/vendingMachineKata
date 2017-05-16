@@ -96,6 +96,17 @@ TEST_CASE("TestAcceptCoinsFunction") {
         REQUIRE(vendingMachine->getCoinReturn() == "UnknownCoin, Penny, ");
     }
     
+    SECTION("WhenInvalidAndValidCoinsAreInsertedOnlyReturnInvalidCoins")
+    {
+        vendingMachine->acceptCoin(*dime);
+        vendingMachine->acceptCoin(*unknownCoin);
+        vendingMachine->acceptCoin(*nickel);
+        vendingMachine->acceptCoin(*penny);
+        vendingMachine->acceptCoin(*quarter);
+        vendingMachine->acceptCoin(*unknownCoin);
+        REQUIRE(vendingMachine->getCoinReturn() == "UnknownCoin, Penny, UnknownCoin, ");
+    }
+    
     //cleanup
     delete quarter;
     quarter = NULL;
@@ -163,6 +174,30 @@ TEST_CASE("TestSelectProductFunction") {
 
     
     SECTION("WhenCandyIsSelectedThenDispenseCandy")
+    {
+        VendingMachine* vendingMachine = new VendingMachine;
+        
+        //init array of nickels
+        std::array<InsertableObject, 13> nickels;
+        for(int i = 0; i < nickels.size(); i++)
+        {
+            nickels[i].weight = NICKEL_WEIGHT;
+            nickels[i].diameter = NICKEL_DIAMETER;
+        }
+        
+        //dispense nickels
+        for(int i = 0; i < nickels.size(); i++)
+        {
+            vendingMachine->acceptCoin(nickels[i]);
+        }
+        REQUIRE(vendingMachine->display() == "0.65");
+        
+        vendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(vendingMachine->display() == "THANK YOU");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+    }
+    
+    SECTION("WhenInsufficientFundsThenDisplayPriceOfItemThenInsertCoin")
     {
         VendingMachine* vendingMachine = new VendingMachine;
         
