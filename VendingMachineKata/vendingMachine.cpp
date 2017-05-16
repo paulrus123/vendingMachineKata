@@ -75,6 +75,7 @@ void VendingMachine::acceptCoin(const InsertableObject &coin)
     {
         currentUserValueInputSoFar+=10;
         displayCurrentAmount = true;
+        dimesInMachine.push_back(coin);
     }
     else if((abs(coin.weight - nickelWeight) < toleranceLevel) && (abs(coin.diameter - nickelDiameter) < toleranceLevel)) //nickel
     {
@@ -94,8 +95,10 @@ string VendingMachine::getCoinReturn()
         {
             if((abs(it->weight - pennyWeight) < toleranceLevel) && (abs(it->diameter - pennyDiameter) < toleranceLevel)) //penny
                 listOfCoins += "Penny, ";
-            else if((abs(it->weight - quarterWeight) < toleranceLevel) && (abs(it->diameter - quarterDiameter) < toleranceLevel)) //penny
+            else if((abs(it->weight - quarterWeight) < toleranceLevel) && (abs(it->diameter - quarterDiameter) < toleranceLevel)) //quarter
                 listOfCoins += "Quarter, ";
+            else if((abs(it->weight - dimeWeight) < toleranceLevel) && (abs(it->diameter - dimeDiameter) < toleranceLevel)) //dime
+                listOfCoins += "Dime, ";
             else
                 listOfCoins += "UnknownCoin, ";
         }
@@ -113,6 +116,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             if(currentUserValueInputSoFar >= 100)
             {
                 isDispensedDisplayThankYou = true;
+                returnChange(currentUserValueInputSoFar - 100);
                 currentUserValueInputSoFar = 0;
             }
             else
@@ -125,7 +129,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             if(currentUserValueInputSoFar >= 50)
             {
                 isDispensedDisplayThankYou = true;
-                returnChange();
+                returnChange(currentUserValueInputSoFar - 50);
                 currentUserValueInputSoFar = 0;
             }
             else
@@ -152,16 +156,24 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
     }
 }
 
-void VendingMachine::returnChange()
+void VendingMachine::returnChange(int amountToReturn)
 {
-    for(int i = 0; i <2; i++){
-        if(!quartersInMachine.empty())
-        {
-            coinsInCoinReturn.push_back(quartersInMachine.back());
-            quartersInMachine.pop_back();
-        }
+    int leftToReturn = amountToReturn;
+    while((leftToReturn >= 25) && (!quartersInMachine.empty()))
+    {
+        coinsInCoinReturn.push_back(quartersInMachine.back());
+        quartersInMachine.pop_back();
+        leftToReturn -= 25;
+    }
+    while((leftToReturn >= 10) && (!dimesInMachine.empty()))
+    {
+        coinsInCoinReturn.push_back(dimesInMachine.back());
+        dimesInMachine.pop_back();
+        leftToReturn-=10;
     }
 }
+
+
 
 
 

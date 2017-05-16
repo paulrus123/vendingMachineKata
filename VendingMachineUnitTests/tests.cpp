@@ -328,18 +328,25 @@ TEST_CASE("TestMakeChangeFunction") {
     VendingMachine* vendingMachine = new VendingMachine;
     REQUIRE(vendingMachine->display() == "INSERT COIN");
     
-    SECTION("MakeChangeFromQuarters")
+    //init array of quarters
+    std::array<InsertableObject, 8> quarters; //2 dollars of quarters
+    for(int i = 0; i < quarters.size(); i++)
     {
-        //init array of quarters
-        std::array<InsertableObject, 4> quarters; //1 dollar of quarters
-        for(int i = 0; i < quarters.size(); i++)
-        {
-            quarters[i].weight = QUARTER_WEIGHT;
-            quarters[i].diameter = QUARTER_DIAMETER;
-        }
-        
+        quarters[i].weight = QUARTER_WEIGHT;
+        quarters[i].diameter = QUARTER_DIAMETER;
+    }
+    
+    std::array<InsertableObject, 20> dimes; //2 dollars of dimes
+    for(int i = 0; i < dimes.size(); i++)
+    {
+        dimes[i].weight = DIME_WEIGHT;
+        dimes[i].diameter = DIME_DIAMETER;
+    }
+    
+    SECTION("MakeChangeFromQuartersAndChips")
+    {
         //dispense all the quarters
-        for(int i = 0; i < quarters.size(); i++)
+        for(int i = 0; i < 4; i++)
         {
             vendingMachine->acceptCoin(quarters[i]);
         }
@@ -349,6 +356,37 @@ TEST_CASE("TestMakeChangeFunction") {
         REQUIRE(vendingMachine->getCoinReturn() == "Quarter, Quarter, ");
     }
     
+    SECTION("MakeChangeFromQuartersAndCola")
+    {
+        //dispense all the quarters
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        //select chips
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->getCoinReturn() == "Quarter, Quarter, Quarter, Quarter, ");
+    }
+    
+    SECTION("MakeChangeFromQuartersAndDimesAndCola")
+    {
+        //dispense 5 quarters
+        for(int i = 0; i < 5; i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        //dispense 2 dimes
+        for(int i = 0; i < 2; i++)
+        {
+            vendingMachine->acceptCoin(dimes[i]);
+        }
+        
+        //select cola
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->getCoinReturn() == "Dime, Dime, Quarter");
+    }
     
 }
 
