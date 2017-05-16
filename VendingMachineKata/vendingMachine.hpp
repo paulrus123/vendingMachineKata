@@ -24,7 +24,7 @@ struct InsertableObject {
 class VendingMachine
 {
 public:
-    VendingMachine() : currentUserValueInputSoFar(0.0), coinsInCoinReturn()
+    VendingMachine() : currentUserValueInputSoFar(0.0), coinsInCoinReturn(), isDispensedDisplayThankYou(false)
     {
     }
     
@@ -38,6 +38,12 @@ public:
     static const float pennyWeight;
     static const float pennyDiameter;
     static const float toleranceLevel; //weight/size tolerance at which the machine will still accept object as valid coin
+    
+    enum ProductName { //products that the vending machine stocks
+        cola,
+        chips,
+        candy
+    };
     
     /**
      Returns the display text on the vending machine
@@ -59,9 +65,18 @@ public:
      */
     string getCoinReturn();
     
+    /**
+    Dispenses selected product if enough money is in the machine
+
+     @param productName the name of the product to dispense (cola, chips, or candy)
+    */
+    void dispenseProduct(VendingMachine::ProductName productName);
+    
 private:
-    float currentUserValueInputSoFar; //the amount of money the current user has put in the machine
+    int currentUserValueInputSoFar; //the amount of money the current user has put in the machine in cents
     std::vector<InsertableObject> coinsInCoinReturn; //array of coins in the coin return
+    bool isDispensedDisplayThankYou;
+
     
 };
 

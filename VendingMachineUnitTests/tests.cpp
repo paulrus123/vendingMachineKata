@@ -10,6 +10,7 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 #include "vendingMachine.hpp"
+#include <array>
 
 
 //#defines for test values of coin weights and diameters
@@ -24,7 +25,9 @@
 
 
 TEST_CASE("TestAcceptCoinsFunction") {
-  
+    
+    
+    //Setup
     VendingMachine* vendingMachine = new VendingMachine;
     
     InsertableObject* quarter = new InsertableObject;
@@ -47,6 +50,7 @@ TEST_CASE("TestAcceptCoinsFunction") {
     unknownCoin->weight = 6.5f;
     unknownCoin->diameter = 15.0f;
     
+    //Test sections
     SECTION("WhenNoMoneyIsInsertedThenDisplayInsertCoin") {
         REQUIRE(vendingMachine->display() == "INSERT COIN");
     }
@@ -92,6 +96,95 @@ TEST_CASE("TestAcceptCoinsFunction") {
         REQUIRE(vendingMachine->getCoinReturn() == "UnknownCoin, Penny, ");
     }
     
-    
-    
+    //cleanup
+    delete quarter;
+    quarter = NULL;
+    delete dime;
+    dime = NULL;
+    delete nickel;
+    nickel = NULL;
+    delete penny;
+    penny = NULL;
+    delete unknownCoin;
+    unknownCoin = NULL;
+    delete vendingMachine;
+    vendingMachine = NULL;
 }
+
+TEST_CASE("TestSelectProductFunction") {
+    
+    SECTION("WhenColaIsSelectedThenDispenseCola")
+    {
+        VendingMachine* vendingMachine = new VendingMachine;
+        
+        //init array of quarters
+        std::array<InsertableObject, 4> quarters;
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            quarters[i].weight = QUARTER_WEIGHT;
+            quarters[i].diameter = QUARTER_DIAMETER;
+        }
+        
+        //dispense quarters
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        REQUIRE(vendingMachine->display() == "1.00");
+                
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->display() == "THANK YOU");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+    }
+    
+    SECTION("WhenChipsIsSelectedThenDispenseChips")
+    {
+        VendingMachine* vendingMachine = new VendingMachine;
+        
+        //init array of quarters
+        std::array<InsertableObject, 2> quarters;
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            quarters[i].weight = QUARTER_WEIGHT;
+            quarters[i].diameter = QUARTER_DIAMETER;
+        }
+        
+        //dispense quarters
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        REQUIRE(vendingMachine->display() == "0.50");
+        
+        vendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(vendingMachine->display() == "THANK YOU");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+    }
+
+    
+    SECTION("WhenCandyIsSelectedThenDispenseCandy")
+    {
+        VendingMachine* vendingMachine = new VendingMachine;
+        
+        //init array of nickels
+        std::array<InsertableObject, 13> nickels;
+        for(int i = 0; i < nickels.size(); i++)
+        {
+            nickels[i].weight = NICKEL_WEIGHT;
+            nickels[i].diameter = NICKEL_DIAMETER;
+        }
+        
+        //dispense nickels
+        for(int i = 0; i < nickels.size(); i++)
+        {
+            vendingMachine->acceptCoin(nickels[i]);
+        }
+        REQUIRE(vendingMachine->display() == "0.65");
+        
+        vendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(vendingMachine->display() == "THANK YOU");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+    }
+}
+
+
