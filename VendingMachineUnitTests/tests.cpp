@@ -475,25 +475,32 @@ TEST_CASE("TestReturnCoinsFunction")
     REQUIRE(vendingMachine->display() == "INSERT COIN");
     
     //init array of quarters
-    std::array<InsertableObject, 8> quarters; //2 dollars of quarters
+    std::array<InsertableObject, 4> quarters;
     for(int i = 0; i < quarters.size(); i++)
     {
         quarters[i].weight = QUARTER_WEIGHT;
         quarters[i].diameter = QUARTER_DIAMETER;
     }
     
-    std::array<InsertableObject, 20> dimes; //2 dollars of dimes
+    std::array<InsertableObject, 4> dimes;
     for(int i = 0; i < dimes.size(); i++)
     {
         dimes[i].weight = DIME_WEIGHT;
         dimes[i].diameter = DIME_DIAMETER;
     }
     
-    std::array<InsertableObject, 40> nickels; //2 dollars of nickels
+    std::array<InsertableObject, 4> nickels;
     for(int i = 0; i < nickels.size(); i++)
     {
         nickels[i].weight = NICKEL_WEIGHT;
         nickels[i].diameter = NICKEL_DIAMETER;
+    }
+    
+    std::array<InsertableObject, 4> pennies;
+    for(int i = 0; i < pennies.size(); i++)
+    {
+        pennies[i].weight = PENNY_WEIGHT;
+        pennies[i].diameter = PENNY_DIAMETER;
     }
     
     SECTION("TestReturnQuarters")
@@ -528,12 +535,35 @@ TEST_CASE("TestReturnCoinsFunction")
     
     SECTION("WhenNoMoneyIsInsertedThenReturnNothing")
     {
-        
+        REQUIRE(vendingMachine->getCoinReturn() == "Coin return is empty");
+    }
+    
+    SECTION("TestReturnMultipleValidCoinTypes")
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            vendingMachine->acceptCoin(nickels[i]);
+            vendingMachine->acceptCoin(dimes[i]);
+            vendingMachine->acceptCoin(quarters[i]);
+
+        }
+        vendingMachine->coinReturnPressed();
+        REQUIRE(vendingMachine->getCoinReturn() == "Nickel, Nickel, Dime, Dime, Quarter, Quarter, ");
     }
 
     SECTION("TestReturnValidCoinsWhileInvalidCoinsAlreadyInCoinReturn")
     {
+        for(int i = 0; i < 2; i++)
+        {
+            vendingMachine->acceptCoin(nickels[i]);
+            vendingMachine->acceptCoin(dimes[i]);
+            vendingMachine->acceptCoin(quarters[i]);
+            vendingMachine->acceptCoin(pennies[i]);
+        }
         
+        REQUIRE(vendingMachine->getCoinReturn() == "Penny, Penny, ");
+        vendingMachine->coinReturnPressed();
+        REQUIRE(vendingMachine->getCoinReturn() == "Nickel, Nickel, Dime, Dime, Quarter, Quarter, Penny, Penny, ");
     }
     
     SECTION("TestReturnCorrectAmountOfMoneyWhenMachineHasMoneyFromPreviousPurchase")

@@ -70,18 +70,21 @@ void VendingMachine::acceptCoin(const InsertableObject &coin)
         currentUserValueInputSoFar+=25;
         displayCurrentAmount = true;
         quartersInMachine.push_back(coin); //add the coin to the quarters stock of the machine
+        numberOfQuartersDispensedByCurrentUser++;
     }
     else if((abs(coin.weight - dimeWeight) < toleranceLevel) && (abs(coin.diameter - dimeDiameter) < toleranceLevel)) //dime
     {
         currentUserValueInputSoFar+=10;
         displayCurrentAmount = true;
         dimesInMachine.push_back(coin); //add the coin to the dimes stock of the machine
+        numberOfDimesDispensedByCurrentUser++;
     }
     else if((abs(coin.weight - nickelWeight) < toleranceLevel) && (abs(coin.diameter - nickelDiameter) < toleranceLevel)) //nickel
     {
         currentUserValueInputSoFar+=5;
         displayCurrentAmount = true;
         nickelsInMachine.push_back(coin); //add the coin to the nickels stock of the machine
+        numberOfNickelsDispensedByCurrentUser++;
     }
     else //not valid
         coinsInCoinReturn.push_back(coin); //directly put the coin into the coin return
@@ -180,25 +183,33 @@ void VendingMachine::returnChange(int amountToReturn)
         nickelsInMachine.pop_back();
         leftToReturn-=5;
     }
+    
+    //zero out the coin counters for the current session
+    numberOfNickelsDispensedByCurrentUser = 0;
+    numberOfDimesDispensedByCurrentUser = 0;
+    numberOfQuartersDispensedByCurrentUser = 0;
 }
 
 void VendingMachine::coinReturnPressed()
 {
-    int i = 3;
-    while((i > 0) && (!quartersInMachine.empty()))
+
+    while((numberOfQuartersDispensedByCurrentUser > 0) && (!quartersInMachine.empty()))
     {
         coinsInCoinReturn.push_back(quartersInMachine.back());
         quartersInMachine.pop_back();
+        numberOfQuartersDispensedByCurrentUser--;
     }
-    while((i > 0) && (!dimesInMachine.empty()))
+    while((numberOfDimesDispensedByCurrentUser > 0) && (!dimesInMachine.empty()))
     {
         coinsInCoinReturn.push_back(dimesInMachine.back());
         dimesInMachine.pop_back();
+        numberOfDimesDispensedByCurrentUser--;
     }
-    while((i > 0) && (!nickelsInMachine.empty()))
+    while((numberOfNickelsDispensedByCurrentUser > 0) && (!nickelsInMachine.empty()))
     {
         coinsInCoinReturn.push_back(nickelsInMachine.back());
         nickelsInMachine.pop_back();
+        numberOfNickelsDispensedByCurrentUser--;
     }
 }
 

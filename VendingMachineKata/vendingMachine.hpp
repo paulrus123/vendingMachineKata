@@ -30,6 +30,9 @@ public:
         quartersInMachine(),
         dimesInMachine(),
         nickelsInMachine(),
+        numberOfQuartersDispensedByCurrentUser(0),
+        numberOfDimesDispensedByCurrentUser(0),
+        numberOfNickelsDispensedByCurrentUser(0),
         isDispensedDisplayThankYou(false),
         haveInsufficientFunds(false),
         displayCurrentAmount(false),
@@ -92,6 +95,14 @@ private:
     std::vector<InsertableObject> quartersInMachine; //array of quarters in the machine
     std::vector<InsertableObject> dimesInMachine; //array of dimes in the machine
     std::vector<InsertableObject> nickelsInMachine; //array of nickels in the machine
+
+    /* Following ints are counters for how many coins of each type the user has input. this is used to return
+     * those coins if the user presses the coin return button
+     */
+    int numberOfQuartersDispensedByCurrentUser;
+    int numberOfDimesDispensedByCurrentUser;
+    int numberOfNickelsDispensedByCurrentUser;
+    
     bool isDispensedDisplayThankYou; //bool that tells display whether or not to display "THANK YOU"
     bool haveInsufficientFunds; //bool that tells display to show "PRICE ___" (price of product) if insufficient funds
     bool displayCurrentAmount; //bool that is true if display should display the amount the user has input so far
