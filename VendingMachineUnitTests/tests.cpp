@@ -29,7 +29,7 @@
 /************************************************************************************
  * TestAcceptCoinsFunction: Test cases related to the "Accept Coins" section of
  * the requirements.
- */
+ ************************************************************************************/
 TEST_CASE("TestAcceptCoinsFunction") {
     //Setup
     VendingMachine* vendingMachine = new VendingMachine;
@@ -129,7 +129,7 @@ TEST_CASE("TestAcceptCoinsFunction") {
 /************************************************************************************
  * TestSelectProductFunction: Test cases related to the "Select Product" section of
  * the requirements.
- */
+ ************************************************************************************/
 TEST_CASE("TestSelectProductFunction") {
     VendingMachine* vendingMachine = new VendingMachine;
 
@@ -323,7 +323,7 @@ TEST_CASE("TestSelectProductFunction") {
 /************************************************************************************
  * TestMakeChangeFunction: Test cases related to the "Make Change" section of
  * the requirements.
- */
+ ************************************************************************************/
 TEST_CASE("TestMakeChangeFunction") {
     VendingMachine* vendingMachine = new VendingMachine;
     REQUIRE(vendingMachine->display() == "INSERT COIN");
@@ -463,7 +463,48 @@ TEST_CASE("TestMakeChangeFunction") {
         vendingMachine->dispenseProduct(VendingMachine::candy);
         REQUIRE(vendingMachine->getCoinReturn() == "Dime, ");
     }
+}
+
+/************************************************************************************
+ * TestReturnCoinsFunction: Test cases related to the "Return Coins" section of
+ * the requirements.
+ ************************************************************************************/
+TEST_CASE("TestReturnCoinsFunction")
+{
+    VendingMachine* vendingMachine = new VendingMachine;
+    REQUIRE(vendingMachine->display() == "INSERT COIN");
     
+    //init array of quarters
+    std::array<InsertableObject, 8> quarters; //2 dollars of quarters
+    for(int i = 0; i < quarters.size(); i++)
+    {
+        quarters[i].weight = QUARTER_WEIGHT;
+        quarters[i].diameter = QUARTER_DIAMETER;
+    }
+    
+    std::array<InsertableObject, 20> dimes; //2 dollars of dimes
+    for(int i = 0; i < dimes.size(); i++)
+    {
+        dimes[i].weight = DIME_WEIGHT;
+        dimes[i].diameter = DIME_DIAMETER;
+    }
+    
+    std::array<InsertableObject, 40> nickels; //2 dollars of nickels
+    for(int i = 0; i < nickels.size(); i++)
+    {
+        nickels[i].weight = NICKEL_WEIGHT;
+        nickels[i].diameter = NICKEL_DIAMETER;
+    }
+    
+    SECTION("TestReturnQuarters")
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        vendingMachine->coinReturnPressed();
+        REQUIRE(vendingMachine->getCoinReturn() == "Quarter, Quarter, Quarter, ");
+    }
 }
 
 

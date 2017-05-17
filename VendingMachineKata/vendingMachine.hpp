@@ -81,6 +81,11 @@ public:
     */
     void dispenseProduct(VendingMachine::ProductName productName);
     
+    /**
+    Returns any inserted money into the coin return and zeros the balance
+     */
+    void coinReturnPressed();
+    
 private:
     int currentUserValueInputSoFar; //the amount of money the current user has put in the machine in cents
     std::vector<InsertableObject> coinsInCoinReturn; //array of coins in the coin return
