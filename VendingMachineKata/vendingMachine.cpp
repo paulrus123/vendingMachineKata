@@ -190,6 +190,16 @@ void VendingMachine::coinReturnPressed()
         coinsInCoinReturn.push_back(quartersInMachine.back());
         quartersInMachine.pop_back();
     }
+    while((i > 0) && (!dimesInMachine.empty()))
+    {
+        coinsInCoinReturn.push_back(dimesInMachine.back());
+        dimesInMachine.pop_back();
+    }
+    while((i > 0) && (!nickelsInMachine.empty()))
+    {
+        coinsInCoinReturn.push_back(nickelsInMachine.back());
+        nickelsInMachine.pop_back();
+    }
 }
 
 

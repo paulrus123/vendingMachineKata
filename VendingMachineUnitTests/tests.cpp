@@ -505,6 +505,41 @@ TEST_CASE("TestReturnCoinsFunction")
         vendingMachine->coinReturnPressed();
         REQUIRE(vendingMachine->getCoinReturn() == "Quarter, Quarter, Quarter, ");
     }
+    
+    SECTION("TestReturnDimes")
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            vendingMachine->acceptCoin(dimes[i]);
+        }
+        vendingMachine->coinReturnPressed();
+        REQUIRE(vendingMachine->getCoinReturn() == "Dime, Dime, Dime, ");
+    }
+    
+    SECTION("TestReturnNickels")
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            vendingMachine->acceptCoin(nickels[i]);
+        }
+        vendingMachine->coinReturnPressed();
+        REQUIRE(vendingMachine->getCoinReturn() == "Nickel, Nickel, Nickel, ");
+    }
+    
+    SECTION("WhenNoMoneyIsInsertedThenReturnNothing")
+    {
+        
+    }
+
+    SECTION("TestReturnValidCoinsWhileInvalidCoinsAlreadyInCoinReturn")
+    {
+        
+    }
+    
+    SECTION("TestReturnCorrectAmountOfMoneyWhenMachineHasMoneyFromPreviousPurchase")
+    {
+        
+    }
 }
 
 
