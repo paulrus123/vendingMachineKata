@@ -482,7 +482,7 @@ TEST_CASE("TestReturnCoinsFunction")
         quarters[i].diameter = QUARTER_DIAMETER;
     }
     
-    std::array<InsertableObject, 4> dimes;
+    std::array<InsertableObject, 5> dimes;
     for(int i = 0; i < dimes.size(); i++)
     {
         dimes[i].weight = DIME_WEIGHT;
@@ -568,7 +568,22 @@ TEST_CASE("TestReturnCoinsFunction")
     
     SECTION("TestReturnCorrectAmountOfMoneyWhenMachineHasMoneyFromPreviousPurchase")
     {
+        for(int i = 0; i < 4; i++) //one dollar of quarters
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        REQUIRE(vendingMachine->display() == "1.00");
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->display() == "THANK YOU");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
         
+        for(int i = 0; i < dimes.size(); i++)
+        {
+            vendingMachine->acceptCoin(dimes[i]);
+        }
+        
+        vendingMachine->coinReturnPressed();
+        REQUIRE(vendingMachine->getCoinReturn() == "Dime, Dime, Dime, Dime, Dime, ");
     }
 }
 
