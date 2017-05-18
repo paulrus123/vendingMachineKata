@@ -58,6 +58,10 @@ string VendingMachine::display()
         else if(displaySoldOut)
         {
             displaySoldOut = false;
+            if(currentUserValueInputSoFar)
+            {
+                displayCurrentAmount = true;
+            }
             return "SOLD OUT";
         }
         else

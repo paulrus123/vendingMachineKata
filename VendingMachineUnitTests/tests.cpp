@@ -596,7 +596,6 @@ TEST_CASE("TestSoldOutFunction")
     VendingMachine* vendingMachine = new VendingMachine(0,0,0); //new vending machine with 0 of each item
     REQUIRE(vendingMachine->display() == "INSERT COIN");
     
-    
     SECTION("WhenNoMoneyInsertedAndItemIsSoldOutThenDisplaySoldOut")
     {
         //cola
@@ -613,6 +612,38 @@ TEST_CASE("TestSoldOutFunction")
         vendingMachine->dispenseProduct(VendingMachine::candy);
         REQUIRE(vendingMachine->display() == "SOLD OUT");
         REQUIRE(vendingMachine->display() == "INSERT COIN");
+    }
+    
+    SECTION("WhenSomeMoneyInsertedAndItemIsSoldOutThenDisplaySoldOut")
+    {
+        //init array of quarters
+        std::array<InsertableObject, 8> quarters; //$2 of quarters
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            quarters[i].weight = QUARTER_WEIGHT;
+            quarters[i].diameter = QUARTER_DIAMETER;
+        }
+        
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            vendingMachine->acceptCoin(quarters[i]);
+        }
+        REQUIRE(vendingMachine->display() == "2.00");
+        
+        //cola
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->display() == "SOLD OUT");
+        REQUIRE(vendingMachine->display() == "2.00");
+        
+        //chips
+        vendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(vendingMachine->display() == "SOLD OUT");
+        REQUIRE(vendingMachine->display() == "2.00");
+        
+        //candy
+        vendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(vendingMachine->display() == "SOLD OUT");
+        REQUIRE(vendingMachine->display() == "2.00");
     }
     
     
