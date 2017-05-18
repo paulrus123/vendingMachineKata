@@ -137,6 +137,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
                 isDispensedDisplayThankYou = true;
                 returnChange(currentUserValueInputSoFar - 100);
                 currentUserValueInputSoFar = 0;
+                colaStock--; 
             }
             else
             {
@@ -154,6 +155,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
                 isDispensedDisplayThankYou = true;
                 returnChange(currentUserValueInputSoFar - 50);
                 currentUserValueInputSoFar = 0;
+                chipsStock--;
             }
             else
             {
@@ -171,6 +173,7 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
                 isDispensedDisplayThankYou = true;
                 returnChange(currentUserValueInputSoFar - 65);
                 currentUserValueInputSoFar = 0;
+                candyStock--;
             }
             else
             {

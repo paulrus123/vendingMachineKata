@@ -47,7 +47,7 @@ public:
     
     //constructor with specifiable stock of each item
     VendingMachine(int colas, int chips, int candy) :
-    colaStock(cola),
+    colaStock(colas),
     chipsStock(chips),
     candyStock(candy),
     currentUserValueInputSoFar(0.0),

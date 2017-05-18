@@ -646,6 +646,58 @@ TEST_CASE("TestSoldOutFunction")
         REQUIRE(vendingMachine->display() == "2.00");
     }
     
+    SECTION("WhenOneStockLeftThenDispenseProductAndNextCallDisplaySoldOut")
+    {
+        VendingMachine* stockedVendingMachine = new VendingMachine(1,1,1); //new vending machine with 1 of each item
+        REQUIRE(stockedVendingMachine->display() == "INSERT COIN");
+        
+        //init array of quarters
+        std::array<InsertableObject, 8> quarters; //$2 of quarters
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            quarters[i].weight = QUARTER_WEIGHT;
+            quarters[i].diameter = QUARTER_DIAMETER;
+        }
+        
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            stockedVendingMachine->acceptCoin(quarters[i]);
+        }
+        REQUIRE(stockedVendingMachine->display() == "2.00");
+        
+        stockedVendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(stockedVendingMachine->display() == "THANK YOU");
+        
+        stockedVendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(stockedVendingMachine->display() == "SOLD OUT");
+        REQUIRE(stockedVendingMachine->display() == "INSERT COIN");
+        
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            stockedVendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        stockedVendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(stockedVendingMachine->display() == "THANK YOU");
+        
+        stockedVendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(stockedVendingMachine->display() == "SOLD OUT");
+        REQUIRE(stockedVendingMachine->display() == "INSERT COIN");
+        
+        for(int i = 0; i < quarters.size(); i++)
+        {
+            stockedVendingMachine->acceptCoin(quarters[i]);
+        }
+        
+        stockedVendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(stockedVendingMachine->display() == "THANK YOU");
+        
+        stockedVendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(stockedVendingMachine->display() == "SOLD OUT");
+        REQUIRE(stockedVendingMachine->display() == "INSERT COIN");
+        
+    }
+    
     
 }
 
