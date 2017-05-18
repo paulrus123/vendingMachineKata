@@ -587,6 +587,35 @@ TEST_CASE("TestReturnCoinsFunction")
     }
 }
 
-
+/************************************************************************************
+ * TestSoldOutFunction: Test cases related to the "Sold Out" section of
+ * the requirements.
+ ************************************************************************************/
+TEST_CASE("TestSoldOutFunction")
+{
+    VendingMachine* vendingMachine = new VendingMachine(0,0,0); //new vending machine with 0 of each item
+    REQUIRE(vendingMachine->display() == "INSERT COIN");
+    
+    
+    SECTION("WhenNoMoneyInsertedAndItemIsSoldOutThenDisplaySoldOut")
+    {
+        //cola
+        vendingMachine->dispenseProduct(VendingMachine::cola);
+        REQUIRE(vendingMachine->display() == "SOLD OUT");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+        
+        //chips
+        vendingMachine->dispenseProduct(VendingMachine::chips);
+        REQUIRE(vendingMachine->display() == "SOLD OUT");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+        
+        //candy
+        vendingMachine->dispenseProduct(VendingMachine::candy);
+        REQUIRE(vendingMachine->display() == "SOLD OUT");
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+    }
+    
+    
+}
 
 

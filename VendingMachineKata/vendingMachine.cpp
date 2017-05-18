@@ -55,6 +55,11 @@ string VendingMachine::display()
             isDispensedDisplayThankYou = false;
             return "THANK YOU";
         }
+        else if(displaySoldOut)
+        {
+            displaySoldOut = false;
+            return "SOLD OUT";
+        }
         else
         {
             return "INSERT COIN";
@@ -119,7 +124,11 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
     displayCurrentAmount = false;
     switch (productName){
         case cola:
-            if(currentUserValueInputSoFar >= 100)
+            if(colaStock <= 0)
+            {
+                displaySoldOut = true;
+            }
+            else if(currentUserValueInputSoFar >= 100)
             {
                 isDispensedDisplayThankYou = true;
                 returnChange(currentUserValueInputSoFar - 100);
@@ -132,7 +141,11 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             }
             break;
         case chips:
-            if(currentUserValueInputSoFar >= 50)
+            if(chipsStock <= 0)
+            {
+                displaySoldOut = true;
+            }
+            else if(currentUserValueInputSoFar >= 50)
             {
                 isDispensedDisplayThankYou = true;
                 returnChange(currentUserValueInputSoFar - 50);
@@ -145,7 +158,11 @@ void VendingMachine::dispenseProduct(VendingMachine::ProductName productName)
             }
             break;
         case candy:
-            if(currentUserValueInputSoFar >= 65)
+            if(candyStock <= 0)
+            {
+                displaySoldOut = true;
+            }
+            else if(currentUserValueInputSoFar >= 65)
             {
                 isDispensedDisplayThankYou = true;
                 returnChange(currentUserValueInputSoFar - 65);

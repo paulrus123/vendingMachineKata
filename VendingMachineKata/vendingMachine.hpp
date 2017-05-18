@@ -24,8 +24,12 @@ struct InsertableObject {
 class VendingMachine
 {
 public:
+    //constructor creating vending machine stocked by default with 10 of each item
     VendingMachine() :
         currentUserValueInputSoFar(0.0),
+        colaStock(10),
+        chipsStock(10),
+        candyStock(10),
         coinsInCoinReturn(),
         quartersInMachine(),
         dimesInMachine(),
@@ -36,12 +40,34 @@ public:
         isDispensedDisplayThankYou(false),
         haveInsufficientFunds(false),
         displayCurrentAmount(false),
+        displaySoldOut(false),
         productPriceString("1.00")
     {
     }
     
+    //constructor with specifiable stock of each item
+    VendingMachine(int colas, int chips, int candy) :
+    colaStock(cola),
+    chipsStock(chips),
+    candyStock(candy),
+    currentUserValueInputSoFar(0.0),
+    coinsInCoinReturn(),
+    quartersInMachine(),
+    dimesInMachine(),
+    nickelsInMachine(),
+    numberOfQuartersDispensedByCurrentUser(0),
+    numberOfDimesDispensedByCurrentUser(0),
+    numberOfNickelsDispensedByCurrentUser(0),
+    isDispensedDisplayThankYou(false),
+    haveInsufficientFunds(false),
+    displayCurrentAmount(false),
+    displaySoldOut(false),
+    productPriceString("1.00")
+    {
+    }
+    
     //constants
-    static const float quarterWeight; 
+    static const float quarterWeight;
     static const float quarterDiameter;
     static const float dimeWeight;
     static const float dimeDiameter;
@@ -56,6 +82,7 @@ public:
         chips,
         candy
     };
+    
     
     /**
      Returns the display text on the vending machine
@@ -106,7 +133,12 @@ private:
     bool isDispensedDisplayThankYou; //bool that tells display whether or not to display "THANK YOU"
     bool haveInsufficientFunds; //bool that tells display to show "PRICE ___" (price of product) if insufficient funds
     bool displayCurrentAmount; //bool that is true if display should display the amount the user has input so far
+    bool displaySoldOut; //bool is true if display should show "SOLD OUT"
     string productPriceString; //string containing price of a product
+    
+    int colaStock; //number of colas in the machine
+    int chipsStock; //number of bags of chips in the machine
+    int candyStock; //number of bags of candy in the machine
     
     /**
      * Adds any extra money that was input and not used into the change return
