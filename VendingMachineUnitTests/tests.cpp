@@ -705,15 +705,50 @@ TEST_CASE("TestSoldOutFunction")
  ************************************************************************************/
 TEST_CASE("TestExactChangeFunction")
 {
+
+    /*For the 50cent case (chips) manual calculation reveals that the machine will need at least:
+     * 1 nickel (55 cent input) assuming 1 quarter and 3 dimes input
+     * nothing (60 cent input) - any case required that at least 2 nickels or one dime is input by user
+     * 1 nickel(65 cent input) - assuming one quarter and 4 dimes input
+     * Nothing(70 cent input)  - any case requires that user inputs some combination of 20cents in nickels/dimes that can be directly returned
+     *
+     * So if the machine does not contain at least 1 nickel, then must display EXACT CHANGE
+     */
+    SECTION("MachineDoesNotHaveANickelThereforeDisplayExactChange")
+    {
+        
+    }
+    
+    /* For the 65cent case (candy) manual calculation reveals that the machine will need at least:
+     * 1 nickel (70cent input) assuming only quarter and dimes were input
+     * 1 dime or 2 nickels (75cents input) assuming only quarters were input
+     * 1 nickel (80 cents input) assuming only quarters and dimes input
+     * 2 nickels or one dime (85 cents input) assuming three quarters and one dime
+     *
+     * So if the machine does not contain 2 nickels OR one dime and one nickel, then must display EXACT CHANGE
+     */
+    SECTION("MachineDoesNotHaveATwoNickelsORADimeAndANickelThereforeDisplayExactChange")
+    {
+        
+    }
+
+    /* No extra tests are needed for the Cola case, since it is 2X the price of chips, there are no unique scenarios that are not covered
+     * by the chips cases
+     */
+    
+    
+//Deprecated - to be deleted once algorithm is developed //
     /* Exact change for Chips. Chips costs 0.50. The cases in which exact change could be needed are:
      *   User inputs 0.55
      *   User inputs 0.60
      *   User Inputs 0.65
      *   User inputs 0.70
      * Any more than 25cents over the price will repeat those same bases cases (since Quarter is our largest accepted coin
+     *
      */
-    
-    //Case 55 - must return 5cents
+    /* Internal calculations, not external test cases
+     
+     //Case 55 - must return 5cents
     SECTION("TestExactChangeNotRequiredIfTwoQuartersAndOneNickel") {}
     
     SECTION("TestExactChangeRequiredIfOneQuarterAndThreeDimes") {}
@@ -733,7 +768,9 @@ TEST_CASE("TestExactChangeFunction")
     //Case 70 - must return 20 cents
     SECTION("TestExactChangeNotRequiredIfTwoQuartersAndTwoDimes") {}
     
-        /*No cases exist where exact change will be required*/
+        //No cases exist where exact change will be required
+    
+    */
     
     
     /* Exact change for Candy. Candy costs 0.65. The cases in which exact change could be needed are:
@@ -744,7 +781,9 @@ TEST_CASE("TestExactChangeFunction")
      * Any more than 25cents over the price will repeat those same bases cases (since Quarter is our largest accepted coin
      */
     
-    //Case 70 - must return 5cents
+    /* Internal calculations, not external test cases
+     
+     //Case 70 - must return 5cents
     SECTION("TestExactChangeNotRequiredIfTwoQuartersAndFourNickels") {}
     
     SECTION("TestExactChangeRequiredIfTwoQuartersAndTwoDimes") {}
@@ -765,7 +804,8 @@ TEST_CASE("TestExactChangeFunction")
     
     SECTION("TestExactChangeRequiredIfThreeQuartersAndOneDime") {}
     
-    
     //Test cases not needed for Cola, since Cola is 2x price of Chips. Therefore the same change cases will apply.
+     
+     */
 
 }
