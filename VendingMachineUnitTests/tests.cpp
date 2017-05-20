@@ -697,8 +697,75 @@ TEST_CASE("TestSoldOutFunction")
         REQUIRE(stockedVendingMachine->display() == "INSERT COIN");
         
     }
-    
-    
 }
 
+/************************************************************************************
+ * TestExactChangeFunction: Test cases related to the "Exact Change" section of
+ * the requirements.
+ ************************************************************************************/
+TEST_CASE("TestExactChangeFunction")
+{
+    /* Exact change for Chips. Chips costs 0.50. The cases in which exact change could be needed are:
+     *   User inputs 0.55
+     *   User inputs 0.60
+     *   User Inputs 0.65
+     *   User inputs 0.70
+     * Any more than 25cents over the price will repeat those same bases cases (since Quarter is our largest accepted coin
+     */
+    
+    //Case 55 - must return 5cents
+    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndOneNickel") {}
+    
+    SECTION("TestExactChangeRequiredIfOneQuarterAndThreeDimes") {}
+    
+    SECTION("TestExactChangeRequiredIfOneQuarterAndThreeDimesButMachineHasANickel") {}
+    
+    //Case 60 - must return 10 cents
+    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndTwoNickels") {}
+    
+    //Case 65 - must return 15 cents
+    SECTION("TestExactChangeRequiredIfOneQuarterAndFourDimes") {}
+    
+    SECTION("TestExactChangeNotRequiredIfTwoQuartersOneDimeAndOneNickel") {}
+    
+    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndThreeNickels") {}
+    
+    //Case 70 - must return 20 cents
+    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndTwoDimes") {}
+    
+        /*No cases exist where exact change will be required*/
+    
+    
+    /* Exact change for Candy. Candy costs 0.65. The cases in which exact change could be needed are:
+     *   User inputs 0.70
+     *   User inputs 0.75
+     *   User Inputs 0.80
+     *   User inputs 0.85
+     * Any more than 25cents over the price will repeat those same bases cases (since Quarter is our largest accepted coin
+     */
+    
+    //Case 70 - must return 5cents
+    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndFourNickels") {}
+    
+    SECTION("TestExactChangeRequiredIfTwoQuartersAndTwoDimes") {}
+    
+    
+    //Case 75 - must return 10 cents
+    SECTION("TestExactChangeRequiredIfThreeQuarters") {}
+    
+    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndTwoDimesAndANickel") {}
+    
+    //Case 80 - must return 15 cents
+    SECTION("TestExactChangeNotRequiredIfOneQuarterFiveDimesAndOneNickel") {}
+    
+    SECTION("TestExactChangeRequiredIfTenDimes") {}
+    
+    //Case 85 - must return 20 cents
+    SECTION("TestExactChangeNotRequiredIfTenDimesAndOneNickel") {}
+    
+    SECTION("TestExactChangeRequiredIfThreeQuartersAndOneDime") {}
+    
+    
+    //Test cases not needed for Cola, since Cola is 2x price of Chips. Therefore the same change cases will apply.
 
+}
