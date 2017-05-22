@@ -66,7 +66,7 @@ string VendingMachine::display()
         }
         else
         {
-            if(this->doNotNeedToDisplayExactChange() == true)
+            if(this->doNotNeedToDisplayExactChange())
                 return "INSERT COIN";
             else
                 return "EXACT CHANGE";
@@ -262,8 +262,9 @@ void VendingMachine::stockMoneyInMachine(std::vector<InsertableObject> coins)
 
 bool VendingMachine::doNotNeedToDisplayExactChange()
 {
-    if(nickelsInMachine.size() >= 1)
-        return true;
+    if((nickelsInMachine.size() >= 2) ||
+        ((nickelsInMachine.size() >= 1) && (dimesInMachine.size() >= 1)))
+        return true; //exact change not needed
     else
         return false;
 }

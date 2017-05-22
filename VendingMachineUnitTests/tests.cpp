@@ -792,83 +792,79 @@ TEST_CASE("TestExactChangeFunction")
      */
     SECTION("MachineDoesNotHaveATwoNickelsORADimeAndANickelThereforeDisplayExactChange")
     {
+        VendingMachine* vendingMachine = new VendingMachine;
+        vendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
         
+        //init array of 2 dimes
+        std::array<InsertableObject, 2> nickelDimeCombo; //2 dollars of quarters
+        std::vector<InsertableObject> nickelDimeComboVec;
+        
+        for(int i = 0; i < nickelDimeCombo.size(); i++)
+        {
+            nickelDimeCombo[i].weight = DIME_WEIGHT;
+            nickelDimeCombo[i].diameter = DIME_DIAMETER;
+            nickelDimeComboVec.push_back(nickelDimeCombo[i]);
+        }
+        
+        
+        vendingMachine->stockMoneyInMachine(nickelDimeComboVec);
+        REQUIRE(vendingMachine->display() == "EXACT CHANGE");
+        
+        //change vector to one nickel and one penny
+        nickelDimeComboVec.clear();
+        for(int i = 0; i < nickelDimeCombo.size(); i++)
+        {
+            if(i < 1)
+            {
+                nickelDimeCombo[i].weight = NICKEL_WEIGHT;
+                nickelDimeCombo[i].diameter = NICKEL_DIAMETER;
+            }
+            else //put in invalid coins (will do nothing)
+            {
+                nickelDimeCombo[i].weight = PENNY_WEIGHT;
+                nickelDimeCombo[i].diameter = PENNY_DIAMETER;
+            }
+            nickelDimeComboVec.push_back(nickelDimeCombo[i]);
+        }
+        vendingMachine->stockMoneyInMachine(nickelDimeComboVec);
+        REQUIRE(vendingMachine->display() == "EXACT CHANGE");
+        
+        //change vector to one nickel and one dime
+        nickelDimeComboVec.clear();
+        for(int i = 0; i < nickelDimeCombo.size(); i++)
+        {
+            if(i < 1)
+            {
+                nickelDimeCombo[i].weight = NICKEL_WEIGHT;
+                nickelDimeCombo[i].diameter = NICKEL_DIAMETER;
+            }
+            else //put in invalid coins (will do nothing)
+            {
+                nickelDimeCombo[i].weight = DIME_WEIGHT;
+                nickelDimeCombo[i].diameter = DIME_DIAMETER;
+            }
+            nickelDimeComboVec.push_back(nickelDimeCombo[i]);
+        }
+        vendingMachine->stockMoneyInMachine(nickelDimeComboVec);
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+        
+        //change vector to two nickels
+        nickelDimeComboVec.clear();
+        for(int i = 0; i < nickelDimeCombo.size(); i++)
+        {
+            nickelDimeCombo[i].weight = NICKEL_WEIGHT;
+            nickelDimeCombo[i].diameter = NICKEL_DIAMETER;
+            nickelDimeComboVec.push_back(nickelDimeCombo[i]);
+        }
+        vendingMachine->stockMoneyInMachine(nickelDimeComboVec);
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+        
+        delete vendingMachine;
+        vendingMachine = NULL;
     }
 
     /* No extra tests are needed for the Cola case, since it is 2X the price of chips, there are no unique scenarios that are not covered
      * by the chips cases
      */
-    
-    
-//Deprecated - to be deleted once algorithm is developed //
-    /* Exact change for Chips. Chips costs 0.50. The cases in which exact change could be needed are:
-     *   User inputs 0.55
-     *   User inputs 0.60
-     *   User Inputs 0.65
-     *   User inputs 0.70
-     * Any more than 25cents over the price will repeat those same bases cases (since Quarter is our largest accepted coin
-     *
-     */
-    /* Internal calculations, not external test cases
-     
-     //Case 55 - must return 5cents
-    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndOneNickel") {}
-    
-    SECTION("TestExactChangeRequiredIfOneQuarterAndThreeDimes") {}
-    
-    SECTION("TestExactChangeRequiredIfOneQuarterAndThreeDimesButMachineHasANickel") {}
-    
-    //Case 60 - must return 10 cents
-    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndTwoNickels") {}
-    
-    //Case 65 - must return 15 cents
-    SECTION("TestExactChangeRequiredIfOneQuarterAndFourDimes") {}
-    
-    SECTION("TestExactChangeNotRequiredIfTwoQuartersOneDimeAndOneNickel") {}
-    
-    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndThreeNickels") {}
-    
-    //Case 70 - must return 20 cents
-    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndTwoDimes") {}
-    
-        //No cases exist where exact change will be required
-    
-    */
-    
-    
-    /* Exact change for Candy. Candy costs 0.65. The cases in which exact change could be needed are:
-     *   User inputs 0.70
-     *   User inputs 0.75
-     *   User Inputs 0.80
-     *   User inputs 0.85
-     * Any more than 25cents over the price will repeat those same bases cases (since Quarter is our largest accepted coin
-     */
-    
-    /* Internal calculations, not external test cases
-     
-     //Case 70 - must return 5cents
-    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndFourNickels") {}
-    
-    SECTION("TestExactChangeRequiredIfTwoQuartersAndTwoDimes") {}
-    
-    
-    //Case 75 - must return 10 cents
-    SECTION("TestExactChangeRequiredIfThreeQuarters") {}
-    
-    SECTION("TestExactChangeNotRequiredIfTwoQuartersAndTwoDimesAndANickel") {}
-    
-    //Case 80 - must return 15 cents
-    SECTION("TestExactChangeNotRequiredIfOneQuarterFiveDimesAndOneNickel") {}
-    
-    SECTION("TestExactChangeRequiredIfTenDimes") {}
-    
-    //Case 85 - must return 20 cents
-    SECTION("TestExactChangeNotRequiredIfTenDimesAndOneNickel") {}
-    
-    SECTION("TestExactChangeRequiredIfThreeQuartersAndOneDime") {}
-    
-    //Test cases not needed for Cola, since Cola is 2x price of Chips. Therefore the same change cases will apply.
-     
-     */
-
 }
