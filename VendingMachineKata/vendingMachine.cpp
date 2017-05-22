@@ -66,7 +66,10 @@ string VendingMachine::display()
         }
         else
         {
-            return "INSERT COIN";
+            if(this->doNotNeedToDisplayExactChange() == true)
+                return "INSERT COIN";
+            else
+                return "EXACT CHANGE";
         }
     }
 }
@@ -235,6 +238,34 @@ void VendingMachine::coinReturnPressed()
         nickelsInMachine.pop_back();
         numberOfNickelsDispensedByCurrentUser--;
     }
+}
+
+void VendingMachine::stockMoneyInMachine(std::vector<InsertableObject> coins)
+{
+    //empty the current stock of coins in machine
+    quartersInMachine.clear();
+    dimesInMachine.clear();
+    nickelsInMachine.clear();
+    
+    
+    //replace stock with the coins argument
+    for(std::vector<InsertableObject>::reverse_iterator it = coins.rbegin(); it != coins.rend(); ++it)
+    {
+        if((abs(it->weight - quarterWeight) < toleranceLevel) && (abs(it->diameter - quarterDiameter) < toleranceLevel)) //quarter
+            quartersInMachine.push_back(*it);
+        else if((abs(it->weight - dimeWeight) < toleranceLevel) && (abs(it->diameter - dimeDiameter) < toleranceLevel)) //dime
+            dimesInMachine.push_back(*it);
+        else if((abs(it->weight - nickelWeight) < toleranceLevel) && (abs(it->diameter - nickelDiameter) < toleranceLevel)) //nickel
+            nickelsInMachine.push_back(*it);
+    }
+}
+
+bool VendingMachine::doNotNeedToDisplayExactChange()
+{
+    if(nickelsInMachine.size() >= 1)
+        return true;
+    else
+        return false;
 }
 
 

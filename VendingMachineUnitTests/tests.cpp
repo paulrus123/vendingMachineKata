@@ -26,6 +26,34 @@
 #define PENNY_WEIGHT 2.5f
 #define PENNY_DIAMETER 19.05f
 
+
+std::vector<InsertableObject> initialStockingOfMoneyInMachine()
+{
+    std::array<InsertableObject, 12> initialCoinsToStock; // create std::array for ease of use (no manual memory allocation)
+    std::vector<InsertableObject> initialCoinsToStockVector;
+    for(int i = 0; i < initialCoinsToStock.size(); i++)
+    {
+        if(i < 4)
+        {
+            initialCoinsToStock[i].weight = QUARTER_WEIGHT;
+            initialCoinsToStock[i].diameter = QUARTER_DIAMETER;
+        }
+        else if(i<8)
+        {
+            initialCoinsToStock[i].weight = DIME_WEIGHT;
+            initialCoinsToStock[i].diameter = DIME_DIAMETER;
+        }
+        else
+        {
+            initialCoinsToStock[i].weight = NICKEL_WEIGHT;
+            initialCoinsToStock[i].diameter = NICKEL_DIAMETER;
+        }
+        initialCoinsToStockVector.push_back(initialCoinsToStock[i]);
+    }
+    return initialCoinsToStockVector;
+}
+
+
 /************************************************************************************
  * TestAcceptCoinsFunction: Test cases related to the "Accept Coins" section of
  * the requirements.
@@ -33,6 +61,7 @@
 TEST_CASE("TestAcceptCoinsFunction") {
     //Setup
     VendingMachine* vendingMachine = new VendingMachine;
+    vendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
     
     InsertableObject* quarter = new InsertableObject;
     quarter->weight = QUARTER_WEIGHT; //standard weight of a quarter https://mdmetric.com/tech/coinmeasure.htm
@@ -132,6 +161,7 @@ TEST_CASE("TestAcceptCoinsFunction") {
  ************************************************************************************/
 TEST_CASE("TestSelectProductFunction") {
     VendingMachine* vendingMachine = new VendingMachine;
+    vendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
 
     SECTION("WhenColaIsSelectedThenDispenseCola")
     {
@@ -250,6 +280,7 @@ TEST_CASE("TestSelectProductFunction") {
     SECTION("WhenAddingMoreFundsThenItemWillBeDispensed")
     {
         VendingMachine* secondVendingMachine = new VendingMachine;
+        secondVendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
         
         //init array of nickels
         std::array<InsertableObject, 20> nickels; //1 dollar of nickels
@@ -288,6 +319,7 @@ TEST_CASE("TestSelectProductFunction") {
     SECTION("WhenProductIsDispensedCurrentAmountIsSetToZero")
     {
         VendingMachine* thirdVendingMachine = new VendingMachine;
+        thirdVendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
         REQUIRE(thirdVendingMachine->display() == "INSERT COIN");
         
         //init array of dimes
@@ -326,6 +358,7 @@ TEST_CASE("TestSelectProductFunction") {
  ************************************************************************************/
 TEST_CASE("TestMakeChangeFunction") {
     VendingMachine* vendingMachine = new VendingMachine;
+    vendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
     REQUIRE(vendingMachine->display() == "INSERT COIN");
     
     //init array of quarters
@@ -461,7 +494,7 @@ TEST_CASE("TestMakeChangeFunction") {
         
         //select candy
         vendingMachine->dispenseProduct(VendingMachine::candy);
-        REQUIRE(vendingMachine->getCoinReturn() == "Dime, ");
+        REQUIRE(vendingMachine->getCoinReturn() == "Dime, Dime, ");
     }
 }
 
@@ -472,6 +505,7 @@ TEST_CASE("TestMakeChangeFunction") {
 TEST_CASE("TestReturnCoinsFunction")
 {
     VendingMachine* vendingMachine = new VendingMachine;
+    vendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
     REQUIRE(vendingMachine->display() == "INSERT COIN");
     
     //init array of quarters
@@ -594,6 +628,7 @@ TEST_CASE("TestReturnCoinsFunction")
 TEST_CASE("TestSoldOutFunction")
 {
     VendingMachine* vendingMachine = new VendingMachine(0,0,0); //new vending machine with 0 of each item
+    vendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
     REQUIRE(vendingMachine->display() == "INSERT COIN");
     
     SECTION("WhenNoMoneyInsertedAndItemIsSoldOutThenDisplaySoldOut")
@@ -649,6 +684,7 @@ TEST_CASE("TestSoldOutFunction")
     SECTION("WhenOneStockLeftThenDispenseProductAndNextCallDisplaySoldOut")
     {
         VendingMachine* stockedVendingMachine = new VendingMachine(1,1,1); //new vending machine with 1 of each item
+        stockedVendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
         REQUIRE(stockedVendingMachine->display() == "INSERT COIN");
         
         //init array of quarters
@@ -710,13 +746,40 @@ TEST_CASE("TestExactChangeFunction")
      * 1 nickel (55 cent input) assuming 1 quarter and 3 dimes input
      * nothing (60 cent input) - any case required that at least 2 nickels or one dime is input by user
      * 1 nickel(65 cent input) - assuming one quarter and 4 dimes input
-     * Nothing(70 cent input)  - any case requires that user inputs some combination of 20cents in nickels/dimes that can be directly returned
+     * Nothing(70 cent input)  - any case requires that user inputs soizme combination of 20cents in nickels/dimes that can be directly returned
      *
      * So if the machine does not contain at least 1 nickel, then must display EXACT CHANGE
      */
     SECTION("MachineDoesNotHaveANickelThereforeDisplayExactChange")
     {
+        VendingMachine* vendingMachine = new VendingMachine;
+        vendingMachine->stockMoneyInMachine(initialStockingOfMoneyInMachine());
+        REQUIRE(vendingMachine->display() == "INSERT COIN");
+ 
+        //init array of quarters and dimes
+        std::array<InsertableObject, 8> quartersAndDimes; //2 dollars of quarters
+        std::vector<InsertableObject> quartersAndDimesVec;
+
+        for(int i = 0; i < quartersAndDimes.size(); i++)
+        {
+            if(i%2)
+            {
+                quartersAndDimes[i].weight = QUARTER_WEIGHT;
+                quartersAndDimes[i].diameter = QUARTER_DIAMETER;
+            }
+            else
+            {
+                quartersAndDimes[i].weight = DIME_WEIGHT;
+                quartersAndDimes[i].diameter = DIME_WEIGHT;
+            }
+            quartersAndDimesVec.push_back(quartersAndDimes[i]);
+        }
+    
+        vendingMachine->stockMoneyInMachine(quartersAndDimesVec);
+        REQUIRE(vendingMachine->display() == "EXACT CHANGE");
         
+        delete vendingMachine;
+        vendingMachine = NULL;
     }
     
     /* For the 65cent case (candy) manual calculation reveals that the machine will need at least:

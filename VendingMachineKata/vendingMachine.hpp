@@ -116,6 +116,13 @@ public:
      */
     void coinReturnPressed();
     
+    /**
+     Stocks the machine money stock with coins
+     
+     @param coins vector of coins to stock in machine
+     */
+    void stockMoneyInMachine(std::vector<InsertableObject> coins);
+    
 private:
     int currentUserValueInputSoFar; //the amount of money the current user has put in the machine in cents
     std::vector<InsertableObject> coinsInCoinReturn; //array of coins in the coin return
@@ -144,6 +151,12 @@ private:
      * Adds any extra money that was input and not used into the change return
      */
     void returnChange(int amountToReturn);
+
+    /**
+     * Internal function to check if machine has enough change to display "INSERT COIN"
+     * @return true if the machine has enough change, false if it does not
+     */
+    bool doNotNeedToDisplayExactChange();
 };
 
 #endif /* vendingMachine_hpp */
