@@ -85,29 +85,29 @@ public:
     
     
     /**
-     Returns the display text on the vending machine
-     
-     @return string containing the text to display on the vending machine output
+     * Returns the display text on the vending machine
+     *
+     * @return string containing the text to display on the vending machine output
      */
     string display();
     
     /**
-     Accepts an object
-     @param coin the (possible) coin object
+     * Accepts an object
+     * @param coin the (possible) coin object
      */
     void acceptCoin(const InsertableObject &coin);
     
     /**
-     Prints an array of Insertable Objects that are in the coin return and empties the coin return
-     
-     @return comma separated list of coins in the coin return. Unknown coins will printed as "UnknownCoin"
+     * Prints an array of Insertable Objects that are in the coin return and empties the coin return
+     *
+     * @return comma separated list of coins in the coin return. Unknown coins will printed as "UnknownCoin"
      */
     string getCoinReturn();
     
     /**
-    Dispenses selected product if enough money is in the machine
-
-     @param productName the name of the product to dispense (cola, chips, or candy)
+    * Dispenses selected product if enough money is in the machine
+    *
+    *@param productName the name of the product to dispense (cola, chips, or candy)
     */
     void dispenseProduct(VendingMachine::ProductName productName);
     
@@ -117,9 +117,9 @@ public:
     void coinReturnPressed();
     
     /**
-     Stocks the machine money stock with coins
-     
-     @param coins vector of coins to stock in machine
+     * Stocks the machine money stock with coins
+     *
+     * @param coins vector of coins to stock in machine
      */
     void stockMoneyInMachine(std::vector<InsertableObject> coins);
     
@@ -130,7 +130,8 @@ private:
     std::vector<InsertableObject> dimesInMachine; //array of dimes in the machine
     std::vector<InsertableObject> nickelsInMachine; //array of nickels in the machine
 
-    /* Following ints are counters for how many coins of each type the user has input. this is used to return
+    /* 
+     * Following ints are counters for how many coins of each type the user has input. this is used to return
      * those coins if the user presses the coin return button
      */
     int numberOfQuartersDispensedByCurrentUser;

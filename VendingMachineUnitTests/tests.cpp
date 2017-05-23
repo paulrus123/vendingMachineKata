@@ -27,6 +27,11 @@
 #define PENNY_DIAMETER 19.05f
 
 
+
+/*
+ * Helper function for test cases. Will initialize a vector of coins for the vending machine to be initially stocked with
+ * @return the vector of coins to stock in the machine
+ */
 std::vector<InsertableObject> initialStockingOfMoneyInMachine()
 {
     std::array<InsertableObject, 12> initialCoinsToStock; // create std::array for ease of use (no manual memory allocation)
