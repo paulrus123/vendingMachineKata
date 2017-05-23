@@ -23,7 +23,7 @@ to build project:
     xcodebuild clean install
 
 to run unit tests:
-    cd DerivedData/VendingMachineKata/Build/Products/Debug/
+    cd Build/Release/
     ./VendingMachineUnitTests
 
 Only unit test product is enabled to be built and run, the application itself is not configured. Future improvements may include addition of a command line interface to demo the vending machine functionality.
