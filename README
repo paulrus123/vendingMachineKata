@@ -1,8 +1,6 @@
-Vending Machine Kata
+# Vending Machine Kata
 
-----------------------
-Introduction
-----------------------
+## Introduction
 A vending machine implementation that can accept coins, dispense products, and make change. Based on the requirements available here:
 https://github.com/PillarTechnology/kata-vending-machine
 
@@ -11,17 +9,13 @@ build for XCode on OSX.
 
 Future improvements may include CMake build management for multiple platform support.
 
-----------------------
-Requirements
-----------------------
+## Requirements
 XCode and XCode Command Line tools to run from directly from the terminal.
 
 The test framework (Catch) is included as a standalone header file in the project
 
 
-----------------------
-Commands
-----------------------
+## Commands
 to build project:
     xcodebuild clean install
 
